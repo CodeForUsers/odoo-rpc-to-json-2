@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_jsonrpc2_api_key_user,jsonrpc2.api.key.user,model_jsonrpc2_api_key,group_jsonrpc2_user,1,1,1,1
+access_jsonrpc2_api_key_manager,jsonrpc2.api.key.manager,model_jsonrpc2_api_key,group_jsonrpc2_manager,1,1,1,1
+access_jsonrpc2_api_log_user,jsonrpc2.api.log.user,model_jsonrpc2_api_log,group_jsonrpc2_user,1,0,0,0
+access_jsonrpc2_api_log_manager,jsonrpc2.api.log.manager,model_jsonrpc2_api_log,group_jsonrpc2_manager,1,1,1,1
+access_jsonrpc2_api_key_wizard_user,jsonrpc2.api.key.wizard.user,model_jsonrpc2_api_key_wizard,group_jsonrpc2_user,1,1,1,1
+access_jsonrpc2_api_key_wizard_manager,jsonrpc2.api.key.wizard.manager,model_jsonrpc2_api_key_wizard,group_jsonrpc2_manager,1,1,1,1

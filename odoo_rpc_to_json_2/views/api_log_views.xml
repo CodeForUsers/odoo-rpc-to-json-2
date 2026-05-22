@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         API Log – Tree View
+         ============================================================ -->
+    <record id="view_jsonrpc2_api_log_tree" model="ir.ui.view">
+        <field name="name">jsonrpc2.api.log.tree</field>
+        <field name="model">jsonrpc2.api.log</field>
+        <field name="arch" type="xml">
+            <tree string="API Logs" create="false" edit="false"
+                  decoration-danger="state == 'error'"
+                  decoration-success="state == 'success'">
+                <field name="create_date" string="Timestamp"/>
+                <field name="database"/>
+                <field name="user_id"/>
+                <field name="auth_method"/>
+                <field name="rpc_method"/>
+                <field name="model_name"/>
+                <field name="model_method"/>
+                <field name="state"/>
+                <field name="duration_ms" string="ms"/>
+                <field name="client_ip"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         API Log – Form View
+         ============================================================ -->
+    <record id="view_jsonrpc2_api_log_form" model="ir.ui.view">
+        <field name="name">jsonrpc2.api.log.form</field>
+        <field name="model">jsonrpc2.api.log</field>
+        <field name="arch" type="xml">
+            <form string="API Log Entry" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group string="Request">
+                            <field name="create_date" string="Timestamp"/>
+                            <field name="jsonrpc_id"/>
+                            <field name="rpc_method"/>
+                            <field name="model_name"/>
+                            <field name="model_method"/>
+                            <field name="client_ip"/>
+                        </group>
+                        <group string="Authentication">
+                            <field name="database"/>
+                            <field name="user_id"/>
+                            <field name="auth_method"/>
+                        </group>
+                    </group>
+                    <group string="Result">
+                        <field name="state"/>
+                        <field name="duration_ms"/>
+                    </group>
+                    <group string="Error Details"
+                           attrs="{'invisible': [('state', '!=', 'error')]}">
+                        <field name="error_message" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         API Log – Search View
+         ============================================================ -->
+    <record id="view_jsonrpc2_api_log_search" model="ir.ui.view">
+        <field name="name">jsonrpc2.api.log.search</field>
+        <field name="model">jsonrpc2.api.log</field>
+        <field name="arch" type="xml">
+            <search string="Search API Logs">
+                <field name="user_id"/>
+                <field name="model_name"/>
+                <field name="model_method"/>
+                <field name="rpc_method"/>
+                <field name="client_ip"/>
+                <filter name="success" string="Success"
+                        domain="[('state', '=', 'success')]"/>
+                <filter name="error" string="Error"
+                        domain="[('state', '=', 'error')]"/>
+                <separator/>
+                <filter name="today" string="Today"
+                        domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_user" string="User"
+                            context="{'group_by': 'user_id'}"/>
+                    <filter name="group_model" string="Model"
+                            context="{'group_by': 'model_name'}"/>
+                    <filter name="group_state" string="Result"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_date" string="Date"
+                            context="{'group_by': 'create_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         API Log – Action
+         ============================================================ -->
+    <record id="action_jsonrpc2_api_log" model="ir.actions.act_window">
+        <field name="name">API Logs</field>
+        <field name="res_model">jsonrpc2.api.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_jsonrpc2_api_log_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No API calls logged yet
+            </p>
+            <p>
+                All JSON-RPC 2.0 calls to <code>/jsonrpc2</code> are
+                automatically logged here for auditing purposes.
+            </p>
+        </field>
+    </record>
+
+</odoo>

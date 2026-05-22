@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Security Groups
+         ============================================================ -->
+
+    <record id="module_category_jsonrpc2" model="ir.module.category">
+        <field name="name">JSON-RPC 2.0</field>
+        <field name="description">JSON/2 API – Odoo 19 Compatibility Layer</field>
+        <field name="sequence">100</field>
+    </record>
+
+    <!-- User group: can manage own API keys and view logs -->
+    <record id="group_jsonrpc2_user" model="res.groups">
+        <field name="name">JSON-RPC 2.0 User</field>
+        <field name="category_id" ref="module_category_jsonrpc2"/>
+        <!-- All Odoo users (internal) get this group automatically -->
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Can manage own API keys and view API logs.</field>
+    </record>
+
+    <!-- Manager group: full access to all keys, logs, and settings -->
+    <record id="group_jsonrpc2_manager" model="res.groups">
+        <field name="name">JSON-RPC 2.0 Manager</field>
+        <field name="category_id" ref="module_category_jsonrpc2"/>
+        <field name="implied_ids" eval="[(4, ref('group_jsonrpc2_user'))]"/>
+        <!-- System administrators are automatically managers -->
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="comment">Full access to all JSON-RPC 2.0 API keys, logs, and configuration.</field>
+    </record>
+
+    <!-- ============================================================
+         Record Rules
+         ============================================================ -->
+
+    <!-- Users can only see their own API keys -->
+    <record id="rule_api_key_user" model="ir.rule">
+        <field name="name">JSON-RPC 2.0: own API keys only</field>
+        <field name="model_id" ref="model_jsonrpc2_api_key"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_jsonrpc2_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Managers can see and manage all API keys -->
+    <record id="rule_api_key_manager" model="ir.rule">
+        <field name="name">JSON-RPC 2.0: all API keys (manager)</field>
+        <field name="model_id" ref="model_jsonrpc2_api_key"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_jsonrpc2_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         API Key Wizard – Form View & Action
+         ============================================================ -->
+    <record id="view_jsonrpc2_api_key_wizard_form" model="ir.ui.view">
+        <field name="name">jsonrpc2.api.key.wizard.form</field>
+        <field name="model">jsonrpc2.api.key.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate API Key">
+                <sheet>
+                    <group attrs="{'invisible': [('generated_key', '!=', False)]}">
+                        <field name="name"/>
+                        <field name="user_id"/>
+                        <field name="expires_at"/>
+                    </group>
+                    
+                    <div attrs="{'invisible': [('generated_key', '=', False)]}">
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Important:</strong>
+                            The full API key is shown below <b>only once</b>.
+                            Make sure to copy it and store it securely. You won't be able to retrieve it again.
+                        </div>
+                        <h3 class="text-center mt-4 mb-4">
+                            <field name="generated_key" widget="CopyClipboardChar" readonly="1" class="text-break"/>
+                        </h3>
+                    </div>
+                </sheet>
+                <footer>
+                    <button string="Generate Key" name="action_generate" type="object" class="btn-primary" attrs="{'invisible': [('generated_key', '!=', False)]}"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_jsonrpc2_api_key_wizard" model="ir.actions.act_window">
+        <field name="name">Generate API Key</field>
+        <field name="res_model">jsonrpc2.api.key.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ============================================================
+         API Key – Tree View
+         ============================================================ -->
+    <record id="view_jsonrpc2_api_key_tree" model="ir.ui.view">
+        <field name="name">jsonrpc2.api.key.tree</field>
+        <field name="model">jsonrpc2.api.key</field>
+        <field name="arch" type="xml">
+            <tree string="API Keys" create="false" edit="false" delete="true">
+                <field name="key_prefix" string="Key (prefix)"/>
+                <field name="name" string="Description"/>
+                <field name="user_id"/>
+                <field name="active"/>
+                <field name="last_used"/>
+                <field name="expires_at"/>
+                <field name="create_date" string="Created"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         API Key – Form View
+         ============================================================ -->
+    <record id="view_jsonrpc2_api_key_form" model="ir.ui.view">
+        <field name="name">jsonrpc2.api.key.form</field>
+        <field name="model">jsonrpc2.api.key</field>
+        <field name="arch" type="xml">
+            <form string="API Key" create="false">
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <widget name="web_ribbon" title="Archived"
+                            attrs="{'invisible': [('active', '=', True)]}"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="user_id"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="key_prefix"/>
+                            <field name="expires_at"/>
+                            <field name="last_used"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-warning" role="alert"
+                         attrs="{'invisible': [('id', '!=', False)]}">
+                        <strong>Important:</strong>
+                        The full API key will be shown <b>only once</b> after
+                        creation.  Make sure to copy it and store it securely.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         API Key – Search View
+         ============================================================ -->
+    <record id="view_jsonrpc2_api_key_search" model="ir.ui.view">
+        <field name="name">jsonrpc2.api.key.search</field>
+        <field name="model">jsonrpc2.api.key</field>
+        <field name="arch" type="xml">
+            <search string="Search API Keys">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="key_prefix"/>
+                <filter name="active" string="Active"
+                        domain="[('active', '=', True)]"/>
+                <filter name="archived" string="Archived"
+                        domain="[('active', '=', False)]"/>
+                <filter name="expired" string="Expired"
+                        domain="[('expires_at', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_user" string="User"
+                            context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         API Key – Action
+         ============================================================ -->
+    <record id="action_jsonrpc2_api_key" model="ir.actions.act_window">
+        <field name="name">API Keys</field>
+        <field name="res_model">jsonrpc2.api.key</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_jsonrpc2_api_key_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first API Key
+            </p>
+            <p>
+                API Keys allow external applications to authenticate
+                against the JSON-RPC 2.0 endpoint without sending
+                user/password on every request.
+            </p>
+        </field>
+    </record>
+
+
+
+</odoo>
