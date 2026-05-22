@@ -1,91 +1,91 @@
 <section class="oe_container" style="font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif; background-color: #ffffff; padding: 40px 0;">
     <div class="oe_row oe_padded">
-        <!-- Banner Principal -->
+        <!-- Main Banner -->
         <div class="col-md-12 text-center" style="margin-bottom: 40px;">
             <div style="display: inline-block; padding: 15px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border-radius: 30px; box-shadow: 0 10px 30px rgba(30, 60, 114, 0.2); margin-bottom: 25px;">
                 <img src="icon.png" alt="Odoo JSON/2 API Logo" style="width: 120px; height: 120px; border-radius: 20px;" />
             </div>
             <h1 style="font-size: 38px; color: #1a2a6c; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">
-                Capa de Compatibilidad JSON/2 API (Odoo 19)
+                JSON/2 API Compatibility Layer (Odoo 19)
             </h1>
             <h3 style="font-size: 20px; color: #5c6b73; font-weight: 400; margin-bottom: 20px;">
-                Prepara tu infraestructura Odoo 16, 17 o 18 para el futuro estándar de integración externa de Odoo 19.
+                Prepare your Odoo 16, 17, or 18 infrastructure for the future Odoo 19 external integration standard.
             </h3>
             <div style="margin: 20px 0;">
                 <span style="background-color: #28a745; color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 14px; margin-right: 10px; display: inline-block;">
-                    ✓ Odoo 16 Soportado
+                    ✓ Odoo 16 Supported
                 </span>
                 <span style="background-color: #17a2b8; color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 14px; margin-right: 10px; display: inline-block;">
-                    ✓ Odoo 17 Soportado
+                    ✓ Odoo 17 Supported
                 </span>
                 <span style="background-color: #6f42c1; color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 14px; display: inline-block;">
-                    ✓ Odoo 18 Soportado
+                    ✓ Odoo 18 Supported
                 </span>
             </div>
         </div>
 
-        <!-- Introducción -->
+        <!-- Introduction -->
         <div class="col-md-10 col-md-offset-1 text-center" style="margin-bottom: 50px;">
             <p style="font-size: 16px; color: #4a4a4a; line-height: 1.8; max-width: 800px; margin: 0 auto;">
-                Con la llegada de Odoo 19, el clásico protocolo XML-RPC es formalmente sustituido por la interfaz <strong>JSON/2 API</strong>, un estándar moderno, ágil y altamente optimizado. Este módulo de grado industrial actúa como un puente directo, permitiendo que tu Odoo actual exponga exactamente los mismos endpoints modernos (<code>/json/2/...</code>) y el protocolo envolvente legado (<code>/jsonrpc2</code>).
+                With the arrival of Odoo 19, the classic XML-RPC protocol is formally replaced by the modern, agile, and highly optimized <strong>JSON/2 API</strong> interface. This industrial-grade module acts as a direct bridge, enabling your current Odoo instance to expose the exact same modern endpoints (<code>/json/2/...</code>) and the legacy wrapping protocol (<code>/jsonrpc2</code>).
             </p>
         </div>
 
-        <!-- Tarjetas de Características -->
+        <!-- Features Grid -->
         <div class="col-md-12" style="margin-bottom: 60px;">
             <h2 style="font-size: 26px; color: #1a2a6c; font-weight: 700; text-align: center; margin-bottom: 35px;">
-                ¿Por qué elegir este módulo?
+                Why choose this module?
             </h2>
             <div class="row">
                 <div class="col-md-4 text-center" style="margin-bottom: 30px;">
                     <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 30px 20px; min-height: 250px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: transform 0.2s;">
                         <div style="font-size: 40px; color: #007bff; margin-bottom: 15px;">🛡️</div>
-                        <h4 style="font-size: 18px; color: #1a2a6c; font-weight: 700; margin-bottom: 12px;">Seguridad Máxima (HMAC)</h4>
+                        <h4 style="font-size: 18px; color: #1a2a6c; font-weight: 700; margin-bottom: 12px;">Maximum Security (HMAC)</h4>
                         <p style="font-size: 14px; color: #6c757d; line-height: 1.6;">
-                            Validación de claves Bearer con protección anti-ataques de tiempo (Timing-Safe) a través de un bucle de comparación $O(N)$ constante sin escapes tempranos. Las claves se hashean en SHA-256.
+                            Bearer key validation with constant-time ($O(N)$) timing-safe comparison protection and no short-circuiting. API keys are safely hashed using SHA-256.
                         </p>
                     </div>
                 </div>
                 <div class="col-md-4 text-center" style="margin-bottom: 30px;">
                     <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 30px 20px; min-height: 250px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: transform 0.2s;">
                         <div style="font-size: 40px; color: #28a745; margin-bottom: 15px;">🔌</div>
-                        <h4 style="font-size: 18px; color: #1a2a6c; font-weight: 700; margin-bottom: 12px;">Doble Endpoint Soportado</h4>
+                        <h4 style="font-size: 18px; color: #1a2a6c; font-weight: 700; margin-bottom: 12px;">Dual Endpoint Support</h4>
                         <p style="font-size: 14px; color: #6c757d; line-height: 1.6;">
-                            Expone la interfaz moderna REST <code>/json/2/&lt;model&gt;/&lt;method&gt;</code> y el protocolo envelope clásico <code>/jsonrpc2</code> para compatibilidad absoluta con integradores web, scripts ERP y más.
+                            Exposes the modern RESTful <code>/json/2/&lt;model&gt;/&lt;method&gt;</code> interface and the classic <code>/jsonrpc2</code> envelope protocol for absolute compatibility with web integrators, ERP scripts, and more.
                         </p>
                     </div>
                 </div>
                 <div class="col-md-4 text-center" style="margin-bottom: 30px;">
                     <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 30px 20px; min-height: 250px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: transform 0.2s;">
                         <div style="font-size: 40px; color: #e0a800; margin-bottom: 15px;">📝</div>
-                        <h4 style="font-size: 18px; color: #1a2a6c; font-weight: 700; margin-bottom: 12px;">Logs y Auditoría</h4>
+                        <h4 style="font-size: 18px; color: #1a2a6c; font-weight: 700; margin-bottom: 12px;">Logs & Auditing</h4>
                         <p style="font-size: 14px; color: #6c757d; line-height: 1.6;">
-                            Visor integrado de logs en la UI de Odoo que registra IP de origen, usuario, duración exacta en milisegundos, estado de respuesta y trazas de error completas para depurar integraciones con facilidad.
+                            Built-in logs viewer in the Odoo UI that records source IP, user, exact duration in milliseconds, response status, and full error tracebacks to debug integrations with ease.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Secciones Visuales con Capturas de Pantalla -->
+        <!-- Alternating visual rows with screenshots -->
         <div class="col-md-12" style="background-color: #f8f9fa; border-radius: 20px; padding: 40px; margin-bottom: 50px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);">
             <div class="row" style="display: flex; align-items: center; flex-wrap: wrap;">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     <h3 style="font-size: 24px; color: #1a2a6c; font-weight: 700; margin-bottom: 15px;">
-                        Gestión Centralizada de API Keys
+                        Centralized API Key Management
                     </h3>
                     <p style="font-size: 15px; color: #4a4a4a; line-height: 1.7; margin-bottom: 20px;">
-                        Los administradores pueden gestionar de forma unificada las claves de acceso de los sistemas externos. Asocia cada llave a un usuario específico del ERP para heredar sus reglas de control de acceso y ACLs nativas. También permite fijar fechas límites de expiración automáticas para maximizar la seguridad operativa.
+                        Administrators can manage access keys for external systems in a unified panel. Associate each key with a specific ERP user to inherit their access control rules and native ACLs. It also allows setting automatic expiration dates to maximize operational security.
                     </p>
                     <ul style="padding-left: 20px; color: #5c6b73; font-size: 14px; line-height: 1.8;">
-                        <li>Control administrativo absoluto sobre los accesos externos.</li>
-                        <li>Estado visual en tiempo real (Archivado/Activo).</li>
-                        <li>Herencia transparente de las reglas ACL del usuario seleccionado.</li>
+                        <li>Absolute administrative control over external access.</li>
+                        <li>Real-time visual status (Archived/Active).</li>
+                        <li>Transparent inheritance of the selected user's ACL rules.</li>
                     </ul>
                 </div>
                 <div class="col-md-6 text-center">
                     <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 12px 25px rgba(0,0,0,0.15); border: 2px solid #e9ecef;">
-                        <img src="screenshot_api_keys.png" alt="Gestión de API Keys en Odoo" style="width: 100%; display: block;" />
+                        <img src="screenshot_api_keys.png" alt="Odoo API Key Management" style="width: 100%; display: block;" />
                     </div>
                 </div>
             </div>
@@ -95,20 +95,20 @@
             <div class="row" style="display: flex; align-items: center; flex-wrap: wrap; flex-direction: row-reverse;">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     <h3 style="font-size: 24px; color: #1a2a6c; font-weight: 700; margin-bottom: 15px;">
-                        Asistente Emergente de Generación Segura
+                        Secure Generation Pop-up Wizard
                     </h3>
                     <p style="font-size: 15px; color: #4a4a4a; line-height: 1.7; margin-bottom: 20px;">
-                        Gracias al nuevo menú dedicado y exclusivo de generación, los administradores pueden invocar un asistente emergente (wizard) rápido y limpio. Este flujo resuelve de raíz el problema de accesibilidad de Odoo cuando la base de datos de claves está vacía, guiándote paso a paso en la creación y mostrándote la clave completa para su copiado inmediato.
+                        Thanks to the new dedicated and exclusive generation menu, administrators can trigger a clean and fast pop-up wizard. This workflow solves Odoo's accessibility issue when the keys list is empty, guiding you step-by-step through creation and showing the complete key for immediate copying.
                     </p>
                     <ul style="padding-left: 20px; color: #5c6b73; font-size: 14px; line-height: 1.8;">
-                        <li>Acceso directo sin importar el estado de la vista lista.</li>
-                        <li>Visualización completa y limpia de la clave generada.</li>
-                        <li>Prevención de errores de copiado antes de almacenar el hash.</li>
+                        <li>Direct access regardless of the list view state.</li>
+                        <li>Clean, complete display of the generated key.</li>
+                        <li>Prevents copying errors before storing the hash.</li>
                     </ul>
                 </div>
                 <div class="col-md-6 text-center">
                     <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 12px 25px rgba(0,0,0,0.15); border: 2px solid #e9ecef;">
-                        <img src="screenshot_api_key_wizard.png" alt="Asistente de API Key en Odoo" style="width: 100%; display: block;" />
+                        <img src="screenshot_api_key_wizard.png" alt="Odoo API Key Wizard" style="width: 100%; display: block;" />
                     </div>
                 </div>
             </div>
@@ -118,35 +118,35 @@
             <div class="row" style="display: flex; align-items: center; flex-wrap: wrap;">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     <h3 style="font-size: 24px; color: #1a2a6c; font-weight: 700; margin-bottom: 15px;">
-                        Monitorización de Logs y Depuración Rápida
+                        Log Monitoring & Fast Debugging
                     </h3>
                     <p style="font-size: 15px; color: #4a4a4a; line-height: 1.7; margin-bottom: 20px;">
-                        ¿Problemas de sincronización con tu tienda Shopify, Amazon o conector externo? La pestaña de <strong>API Logs</strong> es el aliado definitivo de los desarrolladores. Registra cada llamada entrante al servidor con precisión de milisegundos, indicando si falló la validación, si hubo errores de permisos (Access Error) o fallos de validación del ORM de Odoo.
+                        Synchronization issues with your Shopify store, Amazon, or external connectors? The <strong>API Logs</strong> tab is the ultimate developer ally. It records every incoming server call with millisecond precision, indicating if validation failed, if there were permission errors (Access Error), or Odoo ORM validation issues.
                     </p>
                     <ul style="padding-left: 20px; color: #5c6b73; font-size: 14px; line-height: 1.8;">
-                        <li>Registro de dirección IP del cliente externo.</li>
-                        <li>Duración del procesamiento en milisegundos.</li>
-                        <li>Traceback de depuración visible si el servidor está en modo desarrollador.</li>
+                        <li>Records the client IP address of external systems.</li>
+                        <li>Processing duration tracked in milliseconds.</li>
+                        <li>Debug traceback visible when the server is in developer mode.</li>
                     </ul>
                 </div>
                 <div class="col-md-6 text-center">
                     <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 12px 25px rgba(0,0,0,0.15); border: 2px solid #e9ecef;">
-                        <img src="screenshot_api_logs.png" alt="Panel de Logs de Auditoría" style="width: 100%; display: block;" />
+                        <img src="screenshot_api_logs.png" alt="Audit Logs Panel" style="width: 100%; display: block;" />
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Ejemplos Rápidos de Uso de Código -->
+        <!-- Footer -->
         <div class="col-md-12 text-center" style="margin-top: 20px; padding: 40px; background-color: #1a2a6c; color: white; border-radius: 20px; box-shadow: 0 8px 25px rgba(26,42,108,0.25);">
             <h2 style="font-size: 28px; font-weight: 700; color: #ffffff; margin-bottom: 15px;">
-                ¿Listo para conectar tu Odoo?
+                Ready to connect your Odoo?
             </h2>
             <p style="font-size: 16px; color: #e9ecef; max-width: 700px; margin: 0 auto 30px;">
-                Simplemente instala el módulo, crea tu primera clave de API, y empieza a emitir peticiones seguras apuntando a <code>/json/2/</code> tal y como lo exige Odoo 19. Ofrecemos compatibilidad retroactiva completa sin comprometer la seguridad ni el rendimiento.
+                Simply install the module, create your first API key, and start making secure requests pointing to <code>/json/2/</code> exactly as Odoo 19 requires. We offer full backward compatibility without compromising security or performance.
             </p>
             <div style="font-size: 14px; font-weight: 500; letter-spacing: 0.5px; opacity: 0.8;">
-                Desarrollado y mantenido por <strong>David Carreres Gómez</strong>. Licencia LGPL-3.
+                Developed and maintained by <strong>David Carreres Gómez</strong>. LGPL-3 License.
             </div>
         </div>
     </div>
