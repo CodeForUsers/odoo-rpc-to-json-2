@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Top-level menu
+         ============================================================ -->
+    <menuitem id="menu_jsonrpc2_root"
+              name="JSON-RPC 2.0"
+              web_icon="odoo_rpc_to_json_2,static/description/icon.png"
+              groups="group_jsonrpc2_user"
+              sequence="200"/>
+
+    <!-- Sub-menus -->
+    <menuitem id="menu_jsonrpc2_generate_key"
+              name="Generate API Key"
+              parent="menu_jsonrpc2_root"
+              action="action_jsonrpc2_api_key_wizard"
+              sequence="5"/>
+
+    <menuitem id="menu_jsonrpc2_api_keys"
+              name="API Keys"
+              parent="menu_jsonrpc2_root"
+              action="action_jsonrpc2_api_key"
+              sequence="10"/>
+
+    <menuitem id="menu_jsonrpc2_api_logs"
+              name="API Logs"
+              parent="menu_jsonrpc2_root"
+              action="action_jsonrpc2_api_log"
+              sequence="20"/>
+
+</odoo>
