@@ -1,0 +1,437 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* odoo_rpc_to_json_2
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-23 08:38+0000\n"
+"PO-Revision-Date: 2026-05-23 08:38+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_wizard_form
+msgid ""
+"<strong>Important:</strong>\n"
+"                            The full API key is shown below <b>only once</b>.\n"
+"                            Make sure to copy it and store it securely. You won't be able to retrieve it again."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_form
+msgid ""
+"<strong>Important:</strong>\n"
+"                        The full API key will be shown <b>only once</b> after\n"
+"                        creation.  Make sure to copy it and store it securely."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields.selection,name:odoo_rpc_to_json_2.selection__jsonrpc2_api_log__auth_method__api_key
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_form
+msgid "API Key"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.actions.act_window,name:odoo_rpc_to_json_2.action_jsonrpc2_api_key
+#: model:ir.ui.menu,name:odoo_rpc_to_json_2.menu_jsonrpc2_api_keys
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_tree
+msgid "API Keys"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.actions.act_window,help:odoo_rpc_to_json_2.action_jsonrpc2_api_key
+msgid ""
+"API Keys allow external applications to authenticate\n"
+"                against the JSON-RPC 2.0 endpoint without sending\n"
+"                user/password on every request."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_form
+msgid "API Log Entry"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.actions.act_window,name:odoo_rpc_to_json_2.action_jsonrpc2_api_log
+#: model:ir.ui.menu,name:odoo_rpc_to_json_2.menu_jsonrpc2_api_logs
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_tree
+msgid "API Logs"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__active
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_search
+msgid "Active"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.actions.act_window,help:odoo_rpc_to_json_2.action_jsonrpc2_api_log
+msgid ""
+"All JSON-RPC 2.0 calls to <code>/jsonrpc2</code> are\n"
+"                automatically logged here for auditing purposes."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_form
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_search
+msgid "Archived"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__auth_method
+msgid "Auth Method"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_form
+msgid "Authentication"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:res.groups,comment:odoo_rpc_to_json_2.group_jsonrpc2_user
+msgid "Can manage own API keys and view API logs."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__client_ip
+msgid "Client IP"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_wizard_form
+msgid "Close"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.actions.act_window,help:odoo_rpc_to_json_2.action_jsonrpc2_api_key
+msgid "Create your first API Key"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_tree
+msgid "Created"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__create_uid
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__create_uid
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__create_date
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__create_date
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__database
+msgid "Database"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "Date"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__name
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__name
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_tree
+msgid "Description"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__display_name
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__display_name
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__duration_ms
+msgid "Duration (ms)"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields.selection,name:odoo_rpc_to_json_2.selection__jsonrpc2_api_log__state__error
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "Error"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_form
+msgid "Error Details"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__error_message
+msgid "Error Message"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_search
+msgid "Expired"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__expires_at
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__expires_at
+msgid "Expires At"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,help:odoo_rpc_to_json_2.field_jsonrpc2_api_key__key_prefix
+msgid "First 12 characters of the key for identification purposes."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:res.groups,comment:odoo_rpc_to_json_2.group_jsonrpc2_manager
+msgid "Full access to all JSON-RPC 2.0 API keys, logs, and configuration."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.actions.act_window,name:odoo_rpc_to_json_2.action_jsonrpc2_api_key_wizard
+#: model:ir.ui.menu,name:odoo_rpc_to_json_2.menu_jsonrpc2_generate_key
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_wizard_form
+msgid "Generate API Key"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model,name:odoo_rpc_to_json_2.model_jsonrpc2_api_key_wizard
+msgid "Generate API Key Wizard"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_wizard_form
+msgid "Generate Key"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_search
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "Group By"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,help:odoo_rpc_to_json_2.field_jsonrpc2_api_key__name
+msgid "Human-readable label (e.g., \"ERP → WMS Integration\")."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__id
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__id
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__id
+msgid "ID"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.module.category,name:odoo_rpc_to_json_2.module_category_jsonrpc2
+#: model:ir.ui.menu,name:odoo_rpc_to_json_2.menu_jsonrpc2_root
+msgid "JSON-RPC 2.0"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model,name:odoo_rpc_to_json_2.model_jsonrpc2_api_log
+msgid "JSON-RPC 2.0 API Log"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:res.groups,name:odoo_rpc_to_json_2.group_jsonrpc2_manager
+msgid "JSON-RPC 2.0 Manager"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:res.groups,name:odoo_rpc_to_json_2.group_jsonrpc2_user
+msgid "JSON-RPC 2.0 User"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model,name:odoo_rpc_to_json_2.model_jsonrpc2_api_key
+msgid "JSON/2 API Key"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.module.category,description:odoo_rpc_to_json_2.module_category_jsonrpc2
+msgid "JSON/2 API – Odoo 19 Compatibility Layer"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_tree
+msgid "Key (prefix)"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__key_hash
+msgid "Key Hash (SHA-256)"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__key_prefix
+msgid "Key Prefix"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key____last_update
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard____last_update
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__write_uid
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__write_uid
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__write_date
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__write_date
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__last_used
+msgid "Last Used"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,help:odoo_rpc_to_json_2.field_jsonrpc2_api_key__expires_at
+msgid "Leave empty for a key without expiration."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,help:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__expires_at
+msgid "Leave empty so it never expires."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,help:odoo_rpc_to_json_2.field_jsonrpc2_api_log__rpc_method
+msgid "Main JSON-RPC method (e.g. \"call\")."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__model_name
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "Model"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__model_method
+msgid "Model Method"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.actions.act_window,help:odoo_rpc_to_json_2.action_jsonrpc2_api_log
+msgid "No API calls logged yet"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,help:odoo_rpc_to_json_2.field_jsonrpc2_api_key__user_id
+msgid "Odoo user whose permissions are used for this key."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields.selection,name:odoo_rpc_to_json_2.selection__jsonrpc2_api_log__auth_method__password
+msgid "Password"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__rpc_method
+msgid "RPC Method"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_form
+msgid "Request"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__jsonrpc_id
+msgid "Request ID"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__state
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_form
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "Result"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,help:odoo_rpc_to_json_2.field_jsonrpc2_api_key__key_hash
+msgid "SHA-256 hexadecimal hash. The raw key is only displayed when created."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_search
+msgid "Search API Keys"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "Search API Logs"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields.selection,name:odoo_rpc_to_json_2.selection__jsonrpc2_api_log__state__success
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "Success"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__summary
+msgid "Summary"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,help:odoo_rpc_to_json_2.field_jsonrpc2_api_log__jsonrpc_id
+msgid "The \"id\" field of the JSON-RPC 2.0 request."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#. odoo-python
+#: code:addons/odoo_rpc_to_json_2/models/api_key.py:0
+#, python-format
+msgid "The API key description must have at least 3 characters."
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_form
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_tree
+msgid "Timestamp"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "Today"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key__user_id
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__user_id
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_log__user_id
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_key_search
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_search
+msgid "User"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model:ir.model.fields,field_description:odoo_rpc_to_json_2.field_jsonrpc2_api_key_wizard__generated_key
+msgid "Your API Key"
+msgstr ""
+
+#. module: odoo_rpc_to_json_2
+#: model_terms:ir.ui.view,arch_db:odoo_rpc_to_json_2.view_jsonrpc2_api_log_tree
+msgid "ms"
+msgstr ""

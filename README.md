@@ -1,48 +1,78 @@
-# Capa de Compatibilidad API JSON/2 (Odoo 19) para Odoo 16, 17 y 18
+# JSON/2 API Compatibility Layer — Odoo 19 Standard for Odoo 16, 17 & 18
 
-Este módulo actúa como una capa de compatibilidad avanzada y un "traductor" de API que implementa de forma anticipada la especificación de la nueva API **JSON/2** y el protocolo **JSON-RPC 2.0** nativos de **Odoo 19** para su uso en entornos **Odoo 16.0, 17.0 y 18.0**.
+This module implements the upcoming **JSON/2 API** and **JSON-RPC 2.0** specification from **Odoo 19** as a
+drop-in compatibility layer for **Odoo 16.0, 17.0, and 18.0**.
 
-Permite que integraciones modernas orientadas a Odoo 19 interactúen con versiones anteriores sin necesidad de reescribir código de integración ni recurrir al protocolo legacy XML-RPC.
-
----
-
-## ✨ Características Principales
-
-* **Compatibilidad Paritaria con Odoo 19:**
-  * Implementación del endpoint REST moderno: `POST /json/2/<model>/<method>`
-  * Autenticación robusta usando tokens estándar: `Authorization: Bearer <api_key>`
-  * Soporte multi-base de datos con cabecera: `X-Odoo-Database`
-* **Capa JSON-RPC 2.0 (Envolvente Legacy):**
-  * Soporte del endpoint clásico unificado: `POST /jsonrpc2`
-  * Admite credenciales (usuario/contraseña o API Key) directamente en los parámetros del cuerpo JSON.
-* **Seguridad Criptográfica de Nivel Industrial (Igual a Odoo 19):**
-  * **Almacenamiento Seguro:** Las claves de API nunca se guardan en texto plano en la base de datos (solo se almacena su hash criptográfico SHA-256).
-  * **Resistencia a Ataques de Temporización (Timing-Safe):** La validación de las claves Bearer utiliza `hmac.compare_digest` evaluando todas las claves activas en un tiempo constante $O(N)$ sin salidas tempranas (*short-circuiting*), eliminando la posibilidad de ataques de temporización por oráculo.
-  * **Protección Anti-DoS:** Tamaño máximo de cuerpo de petición limitado mediante la variable de entorno `JSONRPC2_MAX_BODY_BYTES` (por defecto 10 MB).
-  * **Control de Expiración:** Soporte para asignar fechas de caducidad automática a los tokens.
-  * **Seguridad ORM:** Bloqueo explícito de métodos ORM privados (aquellos que comienzan con guion bajo `_`).
-* **UI Administrativa Centralizada:**
-  * Menú administrativo **JSON-RPC 2.0** para la creación, asignación y revocación (archivado) ágil de claves de API.
-  * Registro integrado y visor de **Logs de Auditoría (API Logs)** en la UI para monitorear peticiones en tiempo real (IP de origen, base de datos, usuario, método ejecutado, duración en ms, estado y mensajes de error detallados).
+Modern integrations written against Odoo 19 will work on your current instance without any code changes —
+and without touching the legacy XML-RPC protocol.
 
 ---
 
-## 🛠️ Cómo Utilizar la API
+## ✨ Features
 
-### 🚀 1. Endpoint REST Moderno (Estilo Odoo 19)
+| Feature | Details |
+|---|---|
+| **REST Endpoint** | `POST /json/2/<model>/<method>` — identical to Odoo 19 |
+| **JSON-RPC 2.0 Envelope** | `POST /jsonrpc2` — classic wrapper for compatibility |
+| **Bearer Token Auth** | `Authorization: Bearer <api_key>` header |
+| **Multi-DB Support** | `X-Odoo-Database: <db>` header |
+| **SHA-256 Key Storage** | API keys are never stored in plain text |
+| **Timing-Safe Validation** | `hmac.compare_digest` — immune to timing oracle attacks |
+| **Key Expiration** | Optional per-key expiry dates |
+| **Payload Limit** | Configurable via `JSONRPC2_MAX_BODY_BYTES` (default 10 MB) |
+| **Audit Logs** | Every call logged: IP, user, duration (ms), status, traceback |
+| **Bilingual UI** | Full English + Spanish (`es`) translations |
 
-* **URL:** `POST /json/2/<model>/<method>`
-* **Cabeceras HTTP Obligatorias:**
-  * `Content-Type: application/json`
-  * `Authorization: Bearer <TU_API_KEY>`
-  * `X-Odoo-Database: <NOMBRE_BASE_DATOS>` *(opcional si el servidor solo tiene una BD activa)*
+---
 
-#### Ejemplo de Consulta (`search_read` en Partners usando `curl`):
+## 📦 Installation
+
+1. Place the `odoo_rpc_to_json_2` folder inside your Odoo `addons` directory.
+2. Restart the Odoo service:
+   ```bash
+   sudo systemctl restart odoo
+   # or for development:
+   ./odoo-bin -d your_db --addons-path=addons,modules
+   ```
+3. Enable **Developer Mode** in Odoo (`Settings → General Settings → Developer Tools`).
+4. Go to **Apps**, click **Update App List**, search for `JSON/2 API`, and click **Install**.
+
+> **Requirements:** No external Python packages needed. All dependencies (`hmac`, `hashlib`, `secrets`, `json`, `logging`) are part of the Python standard library included with Odoo.
+
+---
+
+## 🚀 How to Use
+
+### Step 1 — Generate an API Key
+
+1. Navigate to **JSON-RPC 2.0 › Generate API Key** in the Odoo top menu.
+2. Select the **User** whose ACL rules the key will inherit.
+3. Enter a descriptive **name** (e.g. `"Shopify Connector"`).
+4. Optionally set an **expiry date**.
+5. Click **Generate Key** — copy the key immediately, it is shown **only once**.
+
+> Manage existing keys at **JSON-RPC 2.0 › API Keys**. Archive a key to instantly revoke access.
+
+---
+
+### Step 2 — REST Endpoint `/json/2/` (Odoo 19 style)
+
+**Required headers:**
+
+| Header | Value |
+|---|---|
+| `Content-Type` | `application/json` |
+| `Authorization` | `Bearer <YOUR_API_KEY>` |
+| `X-Odoo-Database` | `<your_db>` *(optional if single-db)* |
+
+**The request body** is sent as a flat JSON object with the method arguments:
+
+#### Search records (`search_read`)
 ```bash
-curl -X POST https://tu-servidor-odoo.com/json/2/res.partner/search_read \
+curl -X POST https://your-odoo.com/json/2/res.partner/search_read \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer jrpc2_vuestra_clave_secreta_aqui" \
-  -H "X-Odoo-Database: odoo_prod" \
+  -H "Authorization: Bearer jrpc2_your_key_here" \
+  -H "X-Odoo-Database: your_db" \
   -d '{
     "domain": [["is_company", "=", true]],
     "fields": ["name", "email", "phone"],
@@ -50,40 +80,52 @@ curl -X POST https://tu-servidor-odoo.com/json/2/res.partner/search_read \
   }'
 ```
 
-#### Ejemplo de Creación de Registro (`create` en Partners usando `curl`):
+#### Create a record (`create`)
 ```bash
-curl -X POST https://tu-servidor-odoo.com/json/2/res.partner/create \
+curl -X POST https://your-odoo.com/json/2/res.partner/create \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer jrpc2_vuestra_clave_secreta_aqui" \
-  -H "X-Odoo-Database: odoo_prod" \
+  -H "Authorization: Bearer jrpc2_your_key_here" \
+  -H "X-Odoo-Database: your_db" \
   -d '{
-    "name": "Cliente de Integración S.L.",
-    "email": "contacto@clienteintegracion.com"
+    "name": "Integration Partner S.L.",
+    "email": "api@integration.com",
+    "is_company": true
+  }'
+```
+
+#### Write / update a record (`write`)
+```bash
+curl -X POST https://your-odoo.com/json/2/res.partner/write \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer jrpc2_your_key_here" \
+  -H "X-Odoo-Database: your_db" \
+  -d '{
+    "ids": [42],
+    "vals": {"phone": "+34 600 000 000"}
   }'
 ```
 
 ---
 
-### 📥 2. Endpoint Envolvente Legacy (JSON-RPC 2.0)
+### Step 3 — JSON-RPC 2.0 Envelope `/jsonrpc2` (legacy wrapper)
 
-* **URL:** `POST /jsonrpc2`
-* **Cabeceras HTTP:**
-  * `Content-Type: application/json`
+Use this endpoint for compatibility with tools that already use the classic JSON-RPC 2.0 structure.
+Authentication can be passed either as a **Bearer header** or directly inside the JSON body.
 
-#### Ejemplo usando Clave de API en los parámetros (`curl`):
+#### With Bearer header (recommended)
 ```bash
-curl -X POST https://tu-servidor-odoo.com/jsonrpc2 \
+curl -X POST https://your-odoo.com/jsonrpc2 \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer jrpc2_your_key_here" \
   -d '{
     "jsonrpc": "2.0",
-    "id": 1,
     "method": "call",
+    "id": 1,
     "params": {
-      "db": "odoo_prod",
-      "api_key": "jrpc2_vuestra_clave_secreta_aqui",
+      "db": "your_db",
       "model": "res.partner",
       "method": "search_read",
-      "args": [[["is_company", "=", true]]],
+      "args": [[[" is_company", "=", true]]],
       "kwargs": {
         "fields": ["name", "email"],
         "limit": 3
@@ -92,18 +134,37 @@ curl -X POST https://tu-servidor-odoo.com/jsonrpc2 \
   }'
 ```
 
-#### Ejemplo usando Credenciales Clásicas (`curl`):
+#### With API key in body params
 ```bash
-curl -X POST https://tu-servidor-odoo.com/jsonrpc2 \
+curl -X POST https://your-odoo.com/jsonrpc2 \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
-    "id": 1,
     "method": "call",
+    "id": 1,
     "params": {
-      "db": "odoo_prod",
+      "db": "your_db",
+      "api_key": "jrpc2_your_key_here",
+      "model": "res.partner",
+      "method": "search_read",
+      "args": [[]],
+      "kwargs": {"fields": ["name"], "limit": 5}
+    }
+  }'
+```
+
+#### With classic username/password (no API key)
+```bash
+curl -X POST https://your-odoo.com/jsonrpc2 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "call",
+    "id": 1,
+    "params": {
+      "db": "your_db",
       "login": "admin",
-      "password": "mi_password_seguro",
+      "password": "your_password",
       "model": "res.partner",
       "method": "read",
       "args": [[1], ["name", "email"]]
@@ -113,41 +174,56 @@ curl -X POST https://tu-servidor-odoo.com/jsonrpc2 \
 
 ---
 
-## 🖥️ Interfaz y Configuración Administrativa en Odoo
+### Step 4 — Monitor with API Logs
 
-A diferencia del flujo nativo de Odoo 19 (que es de autoservicio en el perfil del usuario), este módulo adopta un enfoque **centralizado de control administrativo** idóneo para Odoo 16-18:
+Go to **JSON-RPC 2.0 › API Logs** to see a real-time audit panel for every incoming call:
 
-1. **Generación de Claves:** Navega al menú principal y haz clic en **JSON-RPC 2.0** > **Generate API Key**.
-2. **Configuración:** En el asistente, asocia el token a un usuario (las ACLs del usuario gobernarán los permisos), asigna un nombre de referencia (ej. "Enlace WooCommerce") y define una fecha de expiración si lo requieres. Luego pulsa **Generate API Key**.
-3. **Gestión:** Las claves creadas se pueden consultar, revocar o archivar desde **JSON-RPC 2.0** > **API Keys**.
-4. **Auditoría de Peticiones:** Visita **JSON-RPC 2.0** > **API Logs** para ver un panel detallado de monitorización con el rendimiento, dirección IP y posibles errores de todas las integraciones externas conectadas.
+- **Client IP** — the origin of the request
+- **User** — the Odoo user the key belongs to
+- **Model & Method** — what was called
+- **Duration (ms)** — processing time
+- **Result** — Success / Error
+- **Error Message** — full traceback (visible in Odoo debug mode only)
 
 ---
 
-## 🔒 Estructura de Respuestas de Error
-En caso de fallo (problemas de permisos, validación de datos o excepciones de usuario), el endpoint REST `/json/2` retorna códigos de estado HTTP semánticos (400, 401, 403, 404, 500) y un cuerpo JSON consistente con el estándar de Odoo 19:
+## 🔒 Error Response Format
+
+On failure, `/json/2/` returns a semantic HTTP status code and a consistent JSON body:
+
+| HTTP Code | Meaning |
+|---|---|
+| `400` | Bad request / validation error |
+| `401` | Missing or invalid API key |
+| `403` | Access denied (ACL/record rules) |
+| `500` | Internal server error |
 
 ```json
 {
   "name": "odoo.exceptions.AccessError",
-  "message": "No tiene los permisos necesarios para modificar este registro.",
-  "arguments": ["No tiene los permisos necesarios..."],
-  "debug": "Traceback (most recent call last):\n  File ..."
+  "message": "You do not have permission to access this document.",
+  "arguments": ["You do not have permission..."],
+  "debug": "<traceback — only shown in Odoo debug mode>"
 }
 ```
-*(El campo `debug` con el traceback solo se muestra si el servidor está en modo debug de Odoo, garantizando que no se filtren detalles de seguridad internos en entornos de producción).*
 
 ---
 
-## 📋 Requisitos e Instalación
+## 🛡️ Security Notes
 
-1. Descarga el código y colócalo en tu directorio de `addons`. El nombre de la carpeta debe ser `odoo_rpc_to_json_2`.
-2. Reinicia el servicio de Odoo (`sudo systemctl restart odoo` o equivalente).
-3. Activa el **Modo Desarrollador** en Odoo.
-4. Dirígete a **Aplicaciones**, haz clic en **Actualizar lista de aplicaciones**.
-5. Busca el módulo `odoo_rpc_to_json_2` (o "JSON/2 API") y haz clic en **Instalar**.
+- **Keys are stored as SHA-256 hashes** — the plain-text key is never persisted in the database.
+- **Timing-safe validation** via `hmac.compare_digest` — prevents timing oracle attacks even with many active keys.
+- **Private ORM methods are blocked** — any method starting with `_` is rejected with HTTP 403.
+- **Payload size limit** — configurable via the `JSONRPC2_MAX_BODY_BYTES` environment variable (default: 10 MB).
 
-### Compatibilidad y Soporte
-* **Versiones Soportadas:** Odoo 16.0, 17.0, 18.0.
-* **Licencia:** LGPL-3.
-* **Soporte:** Las incidencias y mejoras son bienvenidas a través del canal oficial de soporte de Odoo Apps.
+---
+
+## 📋 Compatibility & Support
+
+| Field | Value |
+|---|---|
+| **Supported versions** | Odoo 16.0, 17.0, 18.0 |
+| **External dependencies** | None (pure Python stdlib) |
+| **License** | LGPL-3 |
+| **Languages** | English, Spanish (`es`) |
+| **Maintained by** | David Carreres Gómez |
