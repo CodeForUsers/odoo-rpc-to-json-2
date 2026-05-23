@@ -15,7 +15,7 @@ import hashlib
 import hmac
 import secrets
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
@@ -27,7 +27,7 @@ class JsonRpc2ApiKey(models.Model):
     name = fields.Char(
         string='Description',
         required=True,
-        help='Etiqueta legible por humanos (ej. "Integración ERP → SGA").',
+        help='Human-readable label (e.g., "ERP → WMS Integration").',
     )
     user_id = fields.Many2one(
         'res.users',
@@ -35,26 +35,26 @@ class JsonRpc2ApiKey(models.Model):
         required=True,
         ondelete='cascade',
         default=lambda self: self.env.user,
-        help='Usuario de Odoo cuyos permisos se utilizan para esta clave.',
+        help='Odoo user whose permissions are used for this key.',
     )
     key_hash = fields.Char(
         string='Key Hash (SHA-256)',
         readonly=True,
         copy=False,
-        help='Hash hexadecimal SHA-256. La clave cruda solo se muestra al crearla.',
+        help='SHA-256 hexadecimal hash. The raw key is only displayed when created.',
     )
     key_prefix = fields.Char(
         string='Key Prefix',
         readonly=True,
         copy=False,
         size=12,
-        help='Primeros 12 caracteres de la clave para su identificación.',
+        help='First 12 characters of the key for identification purposes.',
     )
     active = fields.Boolean(default=True)
     last_used = fields.Datetime(string='Last Used', readonly=True)
     expires_at = fields.Datetime(
         string='Expires At',
-        help='Dejar vacío para una clave sin caducidad.',
+        help='Leave empty for a key without expiration.',
     )
 
     # ------------------------------------------------------------------
@@ -66,7 +66,7 @@ class JsonRpc2ApiKey(models.Model):
         for rec in self:
             if len(rec.name.strip()) < 3:
                 raise ValidationError(
-                    "La descripción de la API key debe tener al menos 3 caracteres.")
+                    _("The API key description must have at least 3 characters."))
 
     # ------------------------------------------------------------------
     # CRUD
@@ -144,7 +144,7 @@ class JsonRpc2ApiKeyWizard(models.TransientModel):
 
     name = fields.Char(string='Description', required=True)
     user_id = fields.Many2one('res.users', string='User', required=True, default=lambda self: self.env.user)
-    expires_at = fields.Datetime(string='Expires At', help='Dejar vacío para que no caduque nunca.')
+    expires_at = fields.Datetime(string='Expires At', help='Leave empty so it never expires.')
     
     generated_key = fields.Char(string='Your API Key', readonly=True)
 
