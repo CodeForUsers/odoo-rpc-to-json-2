@@ -33,13 +33,13 @@ class JsonRpc2ApiLog(models.Model):
     jsonrpc_id = fields.Char(
         string='Request ID',
         readonly=True,
-        help='El campo "id" de la petición JSON-RPC 2.0.',
+        help='The "id" field of the JSON-RPC 2.0 request.',
     )
     rpc_method = fields.Char(
         string='RPC Method',
         readonly=True,
         index=True,
-        help='Método principal JSON-RPC (ej. "call").',
+        help='Main JSON-RPC method (e.g. "call").',
     )
     model_name = fields.Char(
         string='Model',

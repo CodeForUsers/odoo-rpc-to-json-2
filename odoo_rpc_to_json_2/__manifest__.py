@@ -2,29 +2,29 @@
 {
     'name': "JSON/2 API – Odoo 19 Compatibility Layer",
 
-    'summary': "Expone /json/2 y /jsonrpc2 compatibles con Odoo 19 en Odoo 16/17/18",
+    'summary': "Exposes Odoo 19 compatible /json/2 and /jsonrpc2 endpoints in Odoo 16/17/18",
 
     'description': """
-        Módulo que expone dos endpoints de API externos compatibles con
-        el esquema de Odoo 19:
+        Module that exposes two external API endpoints compatible with 
+        the Odoo 19 schema:
 
         1. **POST /json/2/<model>/<method>**
-           - API REST moderna idéntica al /json/2 de Odoo 19.
-           - Autenticación via ``Authorization: Bearer <api_key>``.
-           - Base de datos via ``X-Odoo-Database`` (header HTTP).
-           - Respuestas con códigos HTTP semánticos (200/400/401/403/404/500).
+           - Modern REST API identical to Odoo 19's /json/2.
+           - Authentication via ``Authorization: Bearer <api_key>``.
+           - Database selection via ``X-Odoo-Database`` HTTP header.
+           - Responses with semantic HTTP codes (200/400/401/403/404/500).
 
         2. **POST /jsonrpc2**
-           - Capa de compatibilidad JSON-RPC 2.0 (envelope clásico).
-           - Autenticación via credenciales en el body JSON.
+           - JSON-RPC 2.0 compatibility layer (classic envelope).
+           - Authentication via credentials in the JSON body.
 
-        Seguridad:
-        - Comparación de API keys con timing-safe hmac.compare_digest.
-        - Keys almacenadas como hash SHA-256 (nunca en texto plano).
-        - Expiración opcional de API keys.
-        - Bloqueo de métodos privados (_method).
-        - Logging y auditoría de todas las llamadas.
-        - Límite de tamaño de cuerpo de petición (10 MB).
+        Security:
+        - API key comparison using timing-safe hmac.compare_digest.
+        - Keys stored as SHA-256 hash (never in plain text).
+        - Optional API key expiration.
+        - Blocking of private methods (_method).
+        - Logging and auditing of all requests.
+        - Request body size limit (10 MB).
     """,
 
     'author': "David Carreres Gómez",
