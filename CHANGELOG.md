@@ -2,6 +2,15 @@
 
 Todas las novedades, cambios y correcciones de `odoo-rpc-to-json-2`.
 
+## [1.0.1] - 2026-05-23
+
+### Added
+- Descripción y textos del módulo disponibles en **inglés y español**, alineados con el comportamiento real de los endpoints `/json/2` y `/jsonrpc2` y las medidas de seguridad implementadas (API keys con SHA-256 + `hmac.compare_digest`, límite de tamaño de cuerpo, bloqueo de métodos privados, etc.). 
+
+### Fixed
+- Pequeñas correcciones menores en el código y/o vistas (textos, detalles de presentación) **sin cambios en la API pública ni en los modelos de datos**.
+- Ajustes menores en la documentación para que refleje con mayor precisión el flujo actual de autenticación Bearer y el comportamiento de errores HTTP/JSON-RPC.
+
 ## [1.0.0] - 2026-05-22
 
 ### Added
