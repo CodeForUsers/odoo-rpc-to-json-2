@@ -33,7 +33,7 @@
     'support': "david@carreres.es",
 
     'category': 'Technical',
-    'version': '16.0.2.0.0',
+    'version': '18.0.2.0.0',
     'license': 'LGPL-3',
 
     'images': [
