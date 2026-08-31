@@ -572,3 +572,117 @@ def _log_call(db, uid, auth_method, request_id, rpc_method,
     except Exception:
         _logger.warning(
             'Failed to persist JSON-RPC 2.0 audit log', exc_info=True)
+
+
+# ======================================================================
+# Introspección Dinámica y Esquemas de Modelos
+# ======================================================================
+
+def get_model_schema(db, uid, model_name):
+    """Genera el esquema JSON y metadatos de campos para model_name."""
+    registry = odoo.registry(db)
+    with registry.cursor() as cr:
+        env = api.Environment(cr, uid, {})
+        if model_name not in env:
+            raise UserError(f'Model "{model_name}" not found.')
+
+        model = env[model_name]
+        fields_info = model.fields_get()
+
+        type_mapping = {
+            'char': 'string',
+            'text': 'string',
+            'html': 'string',
+            'integer': 'integer',
+            'float': 'number',
+            'monetary': 'number',
+            'boolean': 'boolean',
+            'date': 'string (YYYY-MM-DD)',
+            'datetime': 'string (YYYY-MM-DD HH:MM:SS)',
+            'binary': 'string (base64)',
+            'selection': 'string (selection)',
+            'many2one': 'integer (id)',
+            'one2many': 'array of integers/commands',
+            'many2many': 'array of integers/commands',
+        }
+
+        properties = {}
+        for fname, finfo in sorted(fields_info.items()):
+            ftype = finfo.get('type')
+            prop = {
+                'type': type_mapping.get(ftype, ftype),
+                'odoo_type': ftype,
+                'string': finfo.get('string', fname),
+                'required': finfo.get('required', False),
+                'readonly': finfo.get('readonly', False),
+            }
+            if finfo.get('help'):
+                prop['help'] = finfo['help']
+            if finfo.get('selection'):
+                prop['selection'] = finfo['selection']
+            if finfo.get('relation'):
+                prop['relation'] = finfo['relation']
+            properties[fname] = prop
+
+        methods = {
+            'search_read': {
+                'description': 'Search records and return selected field values.',
+                'example_payload': {
+                    'domain': [['id', '>', 0]],
+                    'fields': list(properties.keys())[:6],
+                    'limit': 10,
+                    'order': 'id desc'
+                }
+            },
+            'create': {
+                'description': 'Create a new record in this model.',
+                'example_payload': {
+                    fname: f"Sample {prop['string']}"
+                    for fname, prop in list(properties.items())[:3]
+                    if not prop['readonly'] and prop['odoo_type'] in ('char', 'text')
+                }
+            },
+            'write': {
+                'description': 'Update one or multiple records by ID.',
+                'example_payload': {
+                    'ids': [1],
+                    'vals': {
+                        fname: "Updated value"
+                        for fname, prop in list(properties.items())[:1]
+                        if not prop['readonly'] and prop['odoo_type'] in ('char', 'text')
+                    }
+                }
+            },
+            'unlink': {
+                'description': 'Delete records by ID list.',
+                'example_payload': {
+                    'ids': [1]
+                }
+            },
+            'fields_get': {
+                'description': 'Inspect raw field definitions and metadata.',
+                'example_payload': {}
+            }
+        }
+
+        return {
+            'model': model_name,
+            'description': getattr(model, '_description', model_name),
+            'fields_count': len(properties),
+            'properties': properties,
+            'supported_methods': methods,
+        }
+
+
+def list_accessible_models(db, uid):
+    """Devuelve la lista de modelos disponibles en la base de datos."""
+    registry = odoo.registry(db)
+    with registry.cursor() as cr:
+        env = api.Environment(cr, uid, {})
+        models = env['ir.model'].search_read(
+            [('transient', '=', False)],
+            ['model', 'name', 'state'],
+            order='model'
+        )
+        return models
+
