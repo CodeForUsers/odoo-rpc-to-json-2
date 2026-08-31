@@ -1,322 +1,204 @@
-<div class="container py-4" style="max-width: 1140px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+<section style="max-width: 900px; margin: 0 auto; padding: 20px 0; font-family: Arial, Helvetica, sans-serif; color: #212529;">
 
-    <!-- ═══════════════════ HERO BANNER ═══════════════════ -->
-    <div class="card bg-dark text-white text-center border-0 mb-5 shadow" style="border-radius: 16px; overflow: hidden;">
-        <div class="card-body p-4 p-md-5">
-            
-            <div class="d-inline-block p-2 bg-white rounded-3 mb-3 shadow-sm">
-                <img src="icon.png" alt="JSON/2 API Icon" class="img-fluid" style="width: 80px; height: 80px; display: block;" />
-            </div>
+    <!-- HERO BANNER -->
+    <div style="background-color: #1b1e2b; border-radius: 16px; padding: 44px 32px; text-align: center; margin-bottom: 36px;">
 
-            <h1 class="h2 fw-bold text-white mb-2" style="font-weight: 800; font-size: 32px;">
-                JSON/2 API &amp; JSON-RPC 2.0
-            </h1>
-            <h2 class="h5 text-info mb-3" style="font-weight: 600; font-size: 18px;">
-                Odoo 19 API Compatibility Layer for Odoo 16, 17, and 18
-            </h2>
+        <div style="display: inline-block; padding: 10px; background-color: #ffffff; border-radius: 20px; margin-bottom: 20px;">
+            <img src="icon.png" alt="JSON/2 API Icon" style="width: 80px; height: 80px; border-radius: 14px; display: block;" />
+        </div>
 
-            <p class="lead text-light mb-4 mx-auto" style="max-width: 800px; font-size: 15px; line-height: 1.7;">
-                Expose native <code class="bg-secondary text-white px-2 py-1 rounded">/json/2/&lt;model&gt;/&lt;method&gt;</code> and <code class="bg-secondary text-white px-2 py-1 rounded">/jsonrpc2</code> endpoints in your Odoo instance. Build modern integrations with Bearer token authentication and ensure future compatibility without waiting for version upgrades.
-            </p>
+        <h2 style="font-size: 28px; font-weight: 800; margin: 0 0 8px; color: #ffffff;">
+            JSON/2 API &amp; JSON-RPC 2.0
+        </h2>
+        <h3 style="font-size: 17px; font-weight: 600; color: #a5b4fc; margin: 0 0 16px;">
+            Odoo 19 API Compatibility Layer for Odoo 16, 17 and 18
+        </h3>
 
-            <div class="d-flex flex-wrap justify-content-center">
-                <span class="badge bg-success text-white px-3 py-2 rounded-pill m-1" style="font-size: 13px; font-weight: 700;">
-                    &#10003; Odoo 16 / 17 / 18
-                </span>
-                <span class="badge bg-primary text-white px-3 py-2 rounded-pill m-1" style="font-size: 13px; font-weight: 700;">
-                    &#10003; Community &amp; Enterprise
-                </span>
-                <span class="badge bg-info text-dark px-3 py-2 rounded-pill m-1" style="font-size: 13px; font-weight: 700;">
-                    &#10003; Bearer Token Auth (SHA-256)
-                </span>
-                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill m-1" style="font-size: 13px; font-weight: 700;">
-                    &#10003; Zero External Dependencies
-                </span>
-            </div>
+        <p style="font-size: 14px; color: #d1d5db; max-width: 750px; margin: 0 auto 20px; line-height: 1.7;">
+            Expose Odoo 19 native endpoints
+            <span style="background-color: #374151; color: #67e8f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: monospace;">/json/2/&lt;model&gt;/&lt;method&gt;</span>
+            and
+            <span style="background-color: #374151; color: #67e8f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: monospace;">/jsonrpc2</span>
+            in your current Odoo instance. Secure Bearer token authentication. Zero external dependencies.
+        </p>
+
+        <div style="text-align: center;">
+            <span style="display: inline-block; background-color: #059669; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin: 3px;">Odoo 16 / 17 / 18</span>
+            <span style="display: inline-block; background-color: #2563eb; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin: 3px;">Community &amp; Enterprise</span>
+            <span style="display: inline-block; background-color: #7c3aed; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin: 3px;">SHA-256 Token Auth</span>
+            <span style="display: inline-block; background-color: #d97706; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin: 3px;">Zero Dependencies</span>
         </div>
     </div>
 
-    <!-- ═══════════════════ KEY FEATURES GRID ═══════════════════ -->
-    <div class="mb-5">
-        <div class="text-center mb-4">
-            <h3 class="fw-bold text-dark mb-2" style="font-size: 24px; font-weight: 800;">
-                Key Capabilities
-            </h3>
-            <p class="text-muted" style="font-size: 15px;">
-                Designed for clean architecture, predictable authentication, and easy maintenance.
-            </p>
-        </div>
+    <!-- KEY FEATURES -->
+    <h3 style="font-size: 22px; font-weight: 800; color: #111827; text-align: center; margin: 0 0 6px;">Key Capabilities</h3>
+    <p style="font-size: 14px; color: #6b7280; text-align: center; margin: 0 0 24px;">Clean architecture, predictable authentication, easy maintenance.</p>
 
-        <div class="row">
-            
-            <!-- Card 1 -->
-            <div class="col-12 col-md-6 mb-4">
-                <div class="card h-100 border shadow-sm rounded-3">
-                    <div class="card-body p-4">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light text-primary rounded-3 p-3 mb-3" style="font-size: 24px; width: 48px; height: 48px;">
-                            &#9889;
-                        </div>
-                        <h4 class="card-title fw-bold text-dark mb-2" style="font-size: 17px; font-weight: 700;">
-                            Odoo 19 REST Interface (<code class="text-primary">/json/2/</code>)
-                        </h4>
-                        <p class="card-text text-secondary mb-0" style="font-size: 14px; line-height: 1.6;">
-                            Direct mapping to ORM methods via <code class="bg-light text-dark px-1 py-1 rounded">/json/2/&lt;model&gt;/&lt;method&gt;</code>. Returns standard JSON and semantic HTTP status codes (200, 400, 401, 403, 404, 500).
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <table style="width: 100%; border-collapse: separate; border-spacing: 12px; margin-bottom: 36px;">
+        <tr>
+            <td style="width: 50%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px;">
+                <div style="font-size: 24px; margin-bottom: 10px;">&#9889;</div>
+                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Odoo 19 REST Interface</h4>
+                <p style="font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6;">
+                    Direct mapping to ORM methods via <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/json/2/&lt;model&gt;/&lt;method&gt;</span>. Returns standard JSON with semantic HTTP status codes (200, 400, 401, 403, 500).
+                </p>
+            </td>
+            <td style="width: 50%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px;">
+                <div style="font-size: 24px; margin-bottom: 10px;">&#128274;</div>
+                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Secure Token Authentication</h4>
+                <p style="font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6;">
+                    API keys stored as SHA-256 hashes. Constant-time validation via <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">hmac.compare_digest</span>. Optional token expiration dates.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px;">
+                <div style="font-size: 24px; margin-bottom: 10px;">&#128203;</div>
+                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Request Logging &amp; Audit</h4>
+                <p style="font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6;">
+                    Every request is logged: timestamp, client IP, user, endpoint, HTTP status, duration (ms), and error tracebacks in debug mode.
+                </p>
+            </td>
+            <td style="width: 50%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px;">
+                <div style="font-size: 24px; margin-bottom: 10px;">&#128257;</div>
+                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Dual Protocol Support</h4>
+                <p style="font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6;">
+                    REST-style <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/json/2/</span> endpoint and the classic JSON-RPC 2.0 envelope <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/jsonrpc2</span>. Compatible with any HTTP client.
+                </p>
+            </td>
+        </tr>
+    </table>
 
-            <!-- Card 2 -->
-            <div class="col-12 col-md-6 mb-4">
-                <div class="card h-100 border shadow-sm rounded-3">
-                    <div class="card-body p-4">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light text-success rounded-3 p-3 mb-3" style="font-size: 24px; width: 48px; height: 48px;">
-                            &#128274;
-                        </div>
-                        <h4 class="card-title fw-bold text-dark mb-2" style="font-size: 17px; font-weight: 700;">
-                            Secure Token Authentication
-                        </h4>
-                        <p class="card-text text-secondary mb-0" style="font-size: 14px; line-height: 1.6;">
-                            API keys are stored as SHA-256 hashes and evaluated using constant-time comparison (<code class="bg-light text-dark px-1 py-1 rounded">hmac.compare_digest</code>). Supports optional token expiration dates.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="col-12 col-md-6 mb-4">
-                <div class="card h-100 border shadow-sm rounded-3">
-                    <div class="card-body p-4">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light text-info rounded-3 p-3 mb-3" style="font-size: 24px; width: 48px; height: 48px;">
-                            &#128203;
-                        </div>
-                        <h4 class="card-title fw-bold text-dark mb-2" style="font-size: 17px; font-weight: 700;">
-                            Request Logging &amp; Audit Trail
-                        </h4>
-                        <p class="card-text text-secondary mb-0" style="font-size: 14px; line-height: 1.6;">
-                            Automatic record of each incoming request: timestamp, client IP, authenticated user, endpoint, response status, execution duration in milliseconds, and error traces.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="col-12 col-md-6 mb-4">
-                <div class="card h-100 border shadow-sm rounded-3">
-                    <div class="card-body p-4">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light text-warning rounded-3 p-3 mb-3" style="font-size: 24px; width: 48px; height: 48px;">
-                            &#128257;
-                        </div>
-                        <h4 class="card-title fw-bold text-dark mb-2" style="font-size: 17px; font-weight: 700;">
-                            Dual Protocol Engine
-                        </h4>
-                        <p class="card-text text-secondary mb-0" style="font-size: 14px; line-height: 1.6;">
-                            Supports both the REST-style <code class="bg-light text-dark px-1 py-1 rounded">/json/2/</code> and the legacy JSON-RPC 2.0 envelope (<code class="bg-light text-dark px-1 py-1 rounded">/jsonrpc2</code>), allowing smooth integration with various clients.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
+    <!-- SCREENSHOT 1: API Keys -->
+    <div style="background-color: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px; margin-bottom: 28px;">
+        <span style="display: inline-block; background-color: #111827; color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; margin-bottom: 10px;">Access Control</span>
+        <h3 style="font-size: 20px; font-weight: 800; color: #111827; margin: 0 0 10px;">API Key Management</h3>
+        <p style="font-size: 14px; color: #374151; line-height: 1.7; margin: 0 0 14px;">
+            Create and manage API keys tied to specific Odoo users. Each key inherits the user's security groups, ACLs, and record rules natively.
+        </p>
+        <ul style="padding-left: 20px; margin: 0 0 18px; color: #374151; font-size: 13px; line-height: 1.9;">
+            <li>User-bound permissions with native Odoo security enforcement.</li>
+            <li>Individual Active / Inactive toggle for immediate revocation.</li>
+            <li>Optional expiration dates for temporary access.</li>
+        </ul>
+        <div style="border: 2px solid #d1d5db; border-radius: 10px; overflow: hidden;">
+            <img src="screenshot_api_keys.png" alt="API Key Management Panel" style="width: 100%; display: block;" />
         </div>
     </div>
 
-    <!-- ═══════════════════ SCREENSHOT 1: API KEYS ═══════════════════ -->
-    <div class="card bg-light border mb-4 shadow-sm" style="border-radius: 16px;">
-        <div class="card-body p-4 p-md-5">
-            <div class="row align-items-center">
-                <div class="col-12 col-lg-6 mb-4 mb-lg-0">
-                    <span class="badge bg-dark text-white text-uppercase px-3 py-2 mb-3" style="letter-spacing: 0.5px; font-size: 11px;">
-                        Access Control
-                    </span>
-                    <h3 class="fw-bold text-dark mb-3" style="font-size: 22px; font-weight: 800;">
-                        API Key Management
-                    </h3>
-                    <p class="text-secondary mb-3" style="font-size: 15px; line-height: 1.7;">
-                        Create and manage API keys tied to specific Odoo users. Each key strictly inherits the standard security groups, access control lists (ACLs), and record rules configured for that user in Odoo.
-                    </p>
-                    <ul class="text-secondary mb-0" style="font-size: 14px; line-height: 1.9; padding-left: 20px;">
-                        <li>User-bound permissions with native Odoo security enforcement.</li>
-                        <li>Individual Active / Inactive status toggle for immediate revocation.</li>
-                        <li>Optional expiration dates for temporary access keys.</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-lg-6 text-center">
-                    <div class="border rounded-3 shadow-sm bg-white p-1">
-                        <img src="screenshot_api_keys.png" alt="API Key Management Panel" class="img-fluid rounded" style="width: 100%; display: block;" />
-                    </div>
-                </div>
-            </div>
+    <!-- SCREENSHOT 2: Wizard -->
+    <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px; margin-bottom: 28px;">
+        <span style="display: inline-block; background-color: #111827; color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; margin-bottom: 10px;">Key Generation</span>
+        <h3 style="font-size: 20px; font-weight: 800; color: #111827; margin: 0 0 10px;">Secure Key Creation Wizard</h3>
+        <p style="font-size: 14px; color: #374151; line-height: 1.7; margin: 0 0 14px;">
+            The built-in wizard generates a cryptographically random token with the <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">jrpc2_</span> prefix. The raw token is displayed once and never stored in plain text.
+        </p>
+        <ul style="padding-left: 20px; margin: 0 0 18px; color: #374151; font-size: 13px; line-height: 1.9;">
+            <li>One-time display of the plain token (not stored in cleartext).</li>
+            <li>SHA-256 hashing applied immediately upon storage.</li>
+            <li>Simple modal accessible from the technical menu.</li>
+        </ul>
+        <div style="border: 2px solid #d1d5db; border-radius: 10px; overflow: hidden;">
+            <img src="screenshot_api_key_wizard.png" alt="API Key Generation Wizard" style="width: 100%; display: block;" />
         </div>
     </div>
 
-    <!-- ═══════════════════ SCREENSHOT 2: WIZARD ═══════════════════ -->
-    <div class="card bg-white border mb-4 shadow-sm" style="border-radius: 16px;">
-        <div class="card-body p-4 p-md-5">
-            <div class="row align-items-center flex-lg-row-reverse">
-                <div class="col-12 col-lg-6 mb-4 mb-lg-0">
-                    <span class="badge bg-dark text-white text-uppercase px-3 py-2 mb-3" style="letter-spacing: 0.5px; font-size: 11px;">
-                        Key Generation
-                    </span>
-                    <h3 class="fw-bold text-dark mb-3" style="font-size: 22px; font-weight: 800;">
-                        Fast &amp; Secure Key Creation Wizard
-                    </h3>
-                    <p class="text-secondary mb-3" style="font-size: 15px; line-height: 1.7;">
-                        The built-in wizard generates a cryptographically random token with the <code class="bg-light text-dark px-1 py-1 rounded">jrpc2_</code> prefix. The raw token is shown once during creation and is never stored in plain text in the database.
-                    </p>
-                    <ul class="text-secondary mb-0" style="font-size: 14px; line-height: 1.9; padding-left: 20px;">
-                        <li>One-time display ensures the plain token is not stored in cleartext.</li>
-                        <li>SHA-256 hashing applied immediately upon storage.</li>
-                        <li>Simple modal workflow accessible from the technical menu.</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-lg-6 text-center">
-                    <div class="border rounded-3 shadow-sm bg-white p-1">
-                        <img src="screenshot_api_key_wizard.png" alt="API Key Generation Wizard" class="img-fluid rounded" style="width: 100%; display: block;" />
-                    </div>
-                </div>
-            </div>
+    <!-- SCREENSHOT 3: Logs -->
+    <div style="background-color: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px; margin-bottom: 36px;">
+        <span style="display: inline-block; background-color: #111827; color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; margin-bottom: 10px;">Monitoring</span>
+        <h3 style="font-size: 20px; font-weight: 800; color: #111827; margin: 0 0 10px;">API Request Logs</h3>
+        <p style="font-size: 14px; color: #374151; line-height: 1.7; margin: 0 0 14px;">
+            Monitor API activity and troubleshoot integration issues directly in Odoo without accessing server logs.
+        </p>
+        <ul style="padding-left: 20px; margin: 0 0 18px; color: #374151; font-size: 13px; line-height: 1.9;">
+            <li>Tracks response duration (ms) to detect slow operations.</li>
+            <li>Records caller IP addresses and HTTP status codes.</li>
+            <li>Stores Python tracebacks for failed requests (debug mode).</li>
+        </ul>
+        <div style="border: 2px solid #d1d5db; border-radius: 10px; overflow: hidden;">
+            <img src="screenshot_api_logs.png" alt="API Request Logs Panel" style="width: 100%; display: block;" />
         </div>
     </div>
 
-    <!-- ═══════════════════ SCREENSHOT 3: LOGS ═══════════════════ -->
-    <div class="card bg-light border mb-5 shadow-sm" style="border-radius: 16px;">
-        <div class="card-body p-4 p-md-5">
-            <div class="row align-items-center">
-                <div class="col-12 col-lg-6 mb-4 mb-lg-0">
-                    <span class="badge bg-dark text-white text-uppercase px-3 py-2 mb-3" style="letter-spacing: 0.5px; font-size: 11px;">
-                        Monitoring &amp; Debugging
-                    </span>
-                    <h3 class="fw-bold text-dark mb-3" style="font-size: 22px; font-weight: 800;">
-                        Detailed API Request Logs
-                    </h3>
-                    <p class="text-secondary mb-3" style="font-size: 15px; line-height: 1.7;">
-                        Monitor incoming API activity and troubleshoot integration issues directly in Odoo without accessing server files or terminal logs.
-                    </p>
-                    <ul class="text-secondary mb-0" style="font-size: 14px; line-height: 1.9; padding-left: 20px;">
-                        <li>Tracks response duration (ms) to detect slow ORM operations.</li>
-                        <li>Records caller IP addresses and HTTP status codes.</li>
-                        <li>Stores complete Python tracebacks for failed requests (in debug mode).</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-lg-6 text-center">
-                    <div class="border rounded-3 shadow-sm bg-white p-1">
-                        <img src="screenshot_api_logs.png" alt="API Request Logs Audit Panel" class="img-fluid rounded" style="width: 100%; display: block;" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- PROTOCOL COMPARISON TABLE -->
+    <h3 style="font-size: 22px; font-weight: 800; color: #111827; text-align: center; margin: 0 0 6px;">Protocol Comparison</h3>
+    <p style="font-size: 14px; color: #6b7280; text-align: center; margin: 0 0 20px;">How JSON/2 API compares with legacy integration methods.</p>
 
-    <!-- ═══════════════════ PROTOCOL COMPARISON TABLE ═══════════════════ -->
-    <div class="mb-5">
-        <div class="text-center mb-4">
-            <h3 class="fw-bold text-dark mb-2" style="font-size: 24px; font-weight: 800;">
-                Protocol Comparison
-            </h3>
-            <p class="text-muted" style="font-size: 15px;">
-                Understanding how JSON/2 API compares with legacy integration methods.
-            </p>
-        </div>
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 36px; border: 1px solid #d1d5db; border-radius: 10px;">
+        <thead>
+            <tr style="background-color: #1b1e2b; color: #ffffff;">
+                <th style="padding: 12px 14px; text-align: left; font-weight: 700; border: 1px solid #374151;">Feature</th>
+                <th style="padding: 12px 14px; text-align: left; font-weight: 700; border: 1px solid #374151;">XML-RPC (Legacy)</th>
+                <th style="padding: 12px 14px; text-align: left; font-weight: 700; border: 1px solid #374151;">JSON-RPC 2.0</th>
+                <th style="padding: 12px 14px; text-align: left; font-weight: 700; border: 1px solid #374151; background-color: #065f46; color: #ffffff;">JSON/2 API</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 10px 14px; font-weight: 700; color: #111827; border: 1px solid #e5e7eb;">Odoo 19</td>
+                <td style="padding: 10px 14px; color: #dc2626; font-weight: 700; border: 1px solid #e5e7eb;">Deprecated</td>
+                <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">Supported (envelope)</td>
+                <td style="padding: 10px 14px; color: #059669; font-weight: 700; border: 1px solid #e5e7eb; background-color: #ecfdf5;">Native format</td>
+            </tr>
+            <tr style="background-color: #f9fafb;">
+                <td style="padding: 10px 14px; font-weight: 700; color: #111827; border: 1px solid #e5e7eb;">Authentication</td>
+                <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">Credentials per call</td>
+                <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">Bearer in payload/header</td>
+                <td style="padding: 10px 14px; color: #059669; font-weight: 700; border: 1px solid #e5e7eb; background-color: #ecfdf5;">HTTP Authorization: Bearer</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px 14px; font-weight: 700; color: #111827; border: 1px solid #e5e7eb;">HTTP Codes</td>
+                <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">Always 200</td>
+                <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">Always 200</td>
+                <td style="padding: 10px 14px; color: #059669; font-weight: 700; border: 1px solid #e5e7eb; background-color: #ecfdf5;">200, 400, 401, 403, 500</td>
+            </tr>
+            <tr style="background-color: #f9fafb;">
+                <td style="padding: 10px 14px; font-weight: 700; color: #111827; border: 1px solid #e5e7eb;">Format</td>
+                <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">Verbose XML</td>
+                <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">JSON-RPC wrapper</td>
+                <td style="padding: 10px 14px; color: #059669; font-weight: 700; border: 1px solid #e5e7eb; background-color: #ecfdf5;">Clean JSON</td>
+            </tr>
+        </tbody>
+    </table>
 
-        <div class="card border shadow-sm" style="border-radius: 14px; overflow: hidden;">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover mb-0 text-start" style="font-size: 14px;">
-                    <thead class="table-dark">
-                        <tr>
-                            <th class="p-3">Feature</th>
-                            <th class="p-3">XML-RPC (Legacy)</th>
-                            <th class="p-3">JSON-RPC 2.0 (<code>/jsonrpc2</code>)</th>
-                            <th class="p-3 bg-success text-white">JSON/2 API (<code>/json/2/</code>)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="p-3 fw-bold text-dark">Odoo 19 Compatibility</td>
-                            <td class="p-3 text-danger fw-bold">&#10007; Deprecated in Odoo 19</td>
-                            <td class="p-3 text-secondary">&#9881; Supported (envelope)</td>
-                            <td class="p-3 text-success fw-bold bg-light">&#10003; Native Odoo 19 format</td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 fw-bold text-dark">Authentication</td>
-                            <td class="p-3 text-secondary">User credentials per call</td>
-                            <td class="p-3 text-secondary">Bearer token in payload/header</td>
-                            <td class="p-3 text-success fw-bold bg-light">HTTP <code>Authorization: Bearer</code></td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 fw-bold text-dark">HTTP Status Codes</td>
-                            <td class="p-3 text-secondary">Always 200 (XML fault on error)</td>
-                            <td class="p-3 text-secondary">Always 200 (JSON error object)</td>
-                            <td class="p-3 text-success fw-bold bg-light">Semantic (200, 400, 401, 403, 500)</td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 fw-bold text-dark">Payload Format</td>
-                            <td class="p-3 text-secondary">Verbose XML</td>
-                            <td class="p-3 text-secondary">JSON-RPC wrapper</td>
-                            <td class="p-3 text-success fw-bold bg-light">Clean JSON key-values</td>
-                        </tr>
-                        <tr>
-                            <td class="p-3 fw-bold text-dark">Tooling &amp; HTTP Clients</td>
-                            <td class="p-3 text-secondary">Requires XML-RPC library</td>
-                            <td class="p-3 text-secondary">cURL, Postman, custom scripts</td>
-                            <td class="p-3 text-success fw-bold bg-light">Standard REST (Postman, cURL, Fetch)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <!-- CODE EXAMPLES -->
+    <h3 style="font-size: 22px; font-weight: 800; color: #111827; text-align: center; margin: 0 0 6px;">Code Examples</h3>
+    <p style="font-size: 14px; color: #6b7280; text-align: center; margin: 0 0 20px;">REST endpoint and JSON-RPC 2.0 envelope examples.</p>
 
-    <!-- ═══════════════════ CODE EXAMPLES & API REFERENCE ═══════════════════ -->
-    <div class="mb-5">
-        <div class="text-center mb-4">
-            <h3 class="fw-bold text-dark mb-2" style="font-size: 24px; font-weight: 800;">
-                Code Examples &amp; API Usage
-            </h3>
-            <p class="text-muted" style="font-size: 15px;">
-                Examples for calling the REST-style endpoint and the JSON-RPC 2.0 envelope.
-            </p>
+    <!-- cURL -->
+    <div style="margin-bottom: 20px;">
+        <div style="background-color: #1b1e2b; color: #67e8f9; font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 10px 10px 0 0;">
+            cURL - POST /json/2/&lt;model&gt;/&lt;method&gt;
         </div>
-
-        <!-- Example 1: cURL REST -->
-        <div class="card bg-dark text-white border-0 shadow mb-4" style="border-radius: 12px; overflow: hidden;">
-            <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center py-2 px-3">
-                <span class="fw-bold text-info" style="font-size: 14px;">
-                    REST Endpoint — POST /json/2/&lt;model&gt;/&lt;method&gt; (cURL)
-                </span>
-                <span class="badge bg-dark text-white">Bash</span>
-            </div>
-            <div class="card-body bg-dark p-3" style="overflow-x: auto;">
-                <pre class="bg-dark text-white m-0 border-0" style="font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13px; line-height: 1.7;"><code># 1. Search partners (search_read)
-curl -X POST https://your-odoo-domain.com/json/2/res.partner/search_read \
+        <div style="background-color: #111827; border-radius: 0 0 10px 10px; padding: 18px; overflow-x: auto;">
+            <pre style="margin: 0; font-family: monospace; font-size: 12px; line-height: 1.7; color: #e5e7eb; white-space: pre-wrap;"><code style="color: #e5e7eb;"># Search partners
+curl -X POST https://your-odoo.com/json/2/res.partner/search_read \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer jrpc2_your_api_key_here" \
-  -H "X-Odoo-Database: your_database_name" \
-  -d '{"domain": [["is_company","=",true]], "fields": ["name", "email", "phone"], "limit": 5}'
+  -H "Authorization: Bearer jrpc2_your_api_key" \
+  -H "X-Odoo-Database: your_db" \
+  -d '{"domain": [["is_company","=",true]], "fields": ["name","email"], "limit": 5}'
 
-# 2. Create a new partner (create)
-curl -X POST https://your-odoo-domain.com/json/2/res.partner/create \
+# Create a partner
+curl -X POST https://your-odoo.com/json/2/res.partner/create \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer jrpc2_your_api_key_here" \
-  -H "X-Odoo-Database: your_database_name" \
-  -d '{"name": "External Integration Corp", "email": "contact@integration.com"}'</code></pre>
-            </div>
+  -H "Authorization: Bearer jrpc2_your_api_key" \
+  -H "X-Odoo-Database: your_db" \
+  -d '{"name": "Integration Corp", "email": "api@example.com"}'</code></pre>
         </div>
+    </div>
 
-        <!-- Example 2: Python requests -->
-        <div class="card bg-dark text-white border-0 shadow mb-4" style="border-radius: 12px; overflow: hidden;">
-            <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center py-2 px-3">
-                <span class="fw-bold text-info" style="font-size: 14px;">
-                    Python (requests library)
-                </span>
-                <span class="badge bg-dark text-white">Python</span>
-            </div>
-            <div class="card-body bg-dark p-3" style="overflow-x: auto;">
-                <pre class="bg-dark text-white m-0 border-0" style="font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13px; line-height: 1.7;"><code>import requests
+    <!-- Python -->
+    <div style="margin-bottom: 20px;">
+        <div style="background-color: #1b1e2b; color: #67e8f9; font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 10px 10px 0 0;">
+            Python (requests)
+        </div>
+        <div style="background-color: #111827; border-radius: 0 0 10px 10px; padding: 18px; overflow-x: auto;">
+            <pre style="margin: 0; font-family: monospace; font-size: 12px; line-height: 1.7; color: #e5e7eb; white-space: pre-wrap;"><code style="color: #e5e7eb;">import requests
 
-url = "https://your-odoo-domain.com/json/2/res.partner/search_read"
+url = "https://your-odoo.com/json/2/res.partner/search_read"
 headers = {
-    "Authorization": "Bearer jrpc2_your_api_key_here",
-    "X-Odoo-Database": "your_database_name",
+    "Authorization": "Bearer jrpc2_your_api_key",
+    "X-Odoo-Database": "your_db",
     "Content-Type": "application/json"
 }
 payload = {
@@ -326,25 +208,20 @@ payload = {
 }
 
 response = requests.post(url, json=payload, headers=headers)
-data = response.json()
 print("Status:", response.status_code)
-print("Partners:", data)</code></pre>
-            </div>
+print("Data:", response.json())</code></pre>
         </div>
+    </div>
 
-        <!-- Example 3: Classic JSON-RPC 2.0 & Error Handling -->
-        <div class="row">
-            <div class="col-12 col-md-6 mb-4 mb-md-0">
-                <div class="card bg-dark text-white border-0 shadow h-100" style="border-radius: 12px; overflow: hidden;">
-                    <div class="card-header bg-secondary text-white py-2 px-3">
-                        <span class="fw-bold text-info" style="font-size: 14px;">
-                            Classic JSON-RPC 2.0 (/jsonrpc2)
-                        </span>
-                    </div>
-                    <div class="card-body bg-dark p-3" style="overflow-x: auto;">
-                        <pre class="bg-dark text-white m-0 border-0" style="font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; line-height: 1.7;"><code>curl -X POST https://your-odoo.com/jsonrpc2 \
+    <!-- JSON-RPC 2.0 -->
+    <div style="margin-bottom: 20px;">
+        <div style="background-color: #1b1e2b; color: #67e8f9; font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 10px 10px 0 0;">
+            JSON-RPC 2.0 - POST /jsonrpc2
+        </div>
+        <div style="background-color: #111827; border-radius: 0 0 10px 10px; padding: 18px; overflow-x: auto;">
+            <pre style="margin: 0; font-family: monospace; font-size: 12px; line-height: 1.7; color: #e5e7eb; white-space: pre-wrap;"><code style="color: #e5e7eb;">curl -X POST https://your-odoo.com/jsonrpc2 \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer jrpc2_key" \
+  -H "Authorization: Bearer jrpc2_your_api_key" \
   -d '{
     "jsonrpc": "2.0",
     "method": "call",
@@ -357,112 +234,67 @@ print("Partners:", data)</code></pre>
       "kwargs": {"fields": ["name"], "limit": 5}
     }
   }'</code></pre>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
 
-            <div class="col-12 col-md-6">
-                <div class="card bg-dark text-white border-0 shadow h-100" style="border-radius: 12px; overflow: hidden;">
-                    <div class="card-header bg-secondary text-white py-2 px-3">
-                        <span class="fw-bold text-warning" style="font-size: 14px;">
-                            Standard Error Format (e.g. 403 Forbidden)
-                        </span>
-                    </div>
-                    <div class="card-body bg-dark p-3" style="overflow-x: auto;">
-                        <pre class="bg-dark text-white m-0 border-0" style="font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; line-height: 1.7;"><code>{
+    <!-- Error format -->
+    <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 0 10px 10px 0; padding: 18px; margin-bottom: 36px;">
+        <h4 style="font-size: 14px; font-weight: 700; color: #92400e; margin: 0 0 8px;">Error Response Format (e.g. 403)</h4>
+        <div style="background-color: #111827; border-radius: 8px; padding: 14px; overflow-x: auto;">
+            <pre style="margin: 0; font-family: monospace; font-size: 12px; line-height: 1.6; color: #e5e7eb; white-space: pre-wrap;"><code style="color: #e5e7eb;">{
   "name": "odoo.exceptions.AccessError",
   "message": "You do not have permission to access this document.",
-  "debug": "&lt;traceback only when in Odoo debug mode&gt;"
+  "debug": "(traceback - only in Odoo debug mode)"
 }</code></pre>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- ═══════════════════ QUICK START (4 STEPS) ═══════════════════ -->
-    <div class="card border shadow-sm p-4 p-md-5 mb-5" style="border-radius: 16px;">
-        <div class="text-center mb-4">
-            <h3 class="fw-bold text-dark mb-2" style="font-size: 24px; font-weight: 800;">
-                Quick Setup
-            </h3>
-            <p class="text-muted" style="font-size: 15px;">
-                Get up and running in 4 straightforward steps.
-            </p>
-        </div>
+    <!-- QUICK SETUP -->
+    <h3 style="font-size: 22px; font-weight: 800; color: #111827; text-align: center; margin: 0 0 6px;">Quick Setup</h3>
+    <p style="font-size: 14px; color: #6b7280; text-align: center; margin: 0 0 20px;">4 steps to get started.</p>
 
-        <div class="row">
-            
-            <div class="col-12 col-sm-6 col-lg-3 mb-3">
-                <div class="card bg-light border h-100 p-3 rounded-3">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle fw-bold mb-3" style="width: 36px; height: 36px; font-size: 15px;">
-                        1
-                    </div>
-                    <h4 class="fw-bold text-dark mb-2" style="font-size: 15px;">Install Module</h4>
-                    <p class="text-secondary mb-0" style="font-size: 13px; line-height: 1.5;">
-                        Place the module in your custom addons path and install it from the Apps menu.
-                    </p>
-                </div>
-            </div>
+    <table style="width: 100%; border-collapse: separate; border-spacing: 10px; margin-bottom: 36px;">
+        <tr>
+            <td style="width: 25%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px; text-align: center;">
+                <div style="display: inline-block; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; background-color: #2563eb; color: #ffffff; font-weight: 800; font-size: 14px; margin-bottom: 10px;">1</div>
+                <h4 style="font-size: 14px; font-weight: 700; color: #111827; margin: 0 0 6px;">Install</h4>
+                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.5;">Place the module in your addons path and install from the Apps menu.</p>
+            </td>
+            <td style="width: 25%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px; text-align: center;">
+                <div style="display: inline-block; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; background-color: #2563eb; color: #ffffff; font-weight: 800; font-size: 14px; margin-bottom: 10px;">2</div>
+                <h4 style="font-size: 14px; font-weight: 700; color: #111827; margin: 0 0 6px;">Create Key</h4>
+                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.5;">Go to JSON-RPC 2.0 &gt; Generate API Key. Pick a user and copy your token.</p>
+            </td>
+            <td style="width: 25%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px; text-align: center;">
+                <div style="display: inline-block; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; background-color: #2563eb; color: #ffffff; font-weight: 800; font-size: 14px; margin-bottom: 10px;">3</div>
+                <h4 style="font-size: 14px; font-weight: 700; color: #111827; margin: 0 0 6px;">Send Request</h4>
+                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.5;">POST to /json/2/model/method with Authorization: Bearer header.</p>
+            </td>
+            <td style="width: 25%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px; text-align: center;">
+                <div style="display: inline-block; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; background-color: #2563eb; color: #ffffff; font-weight: 800; font-size: 14px; margin-bottom: 10px;">4</div>
+                <h4 style="font-size: 14px; font-weight: 700; color: #111827; margin: 0 0 6px;">Monitor</h4>
+                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.5;">Check JSON-RPC 2.0 &gt; API Logs for response times, status codes, and traces.</p>
+            </td>
+        </tr>
+    </table>
 
-            <div class="col-12 col-sm-6 col-lg-3 mb-3">
-                <div class="card bg-light border h-100 p-3 rounded-3">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle fw-bold mb-3" style="width: 36px; height: 36px; font-size: 15px;">
-                        2
-                    </div>
-                    <h4 class="fw-bold text-dark mb-2" style="font-size: 15px;">Create API Key</h4>
-                    <p class="text-secondary mb-0" style="font-size: 13px; line-height: 1.5;">
-                        Go to <strong>JSON-RPC 2.0 &rsaquo; Generate API Key</strong>, pick a user, and copy your token.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-3 mb-3">
-                <div class="card bg-light border h-100 p-3 rounded-3">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle fw-bold mb-3" style="width: 36px; height: 36px; font-size: 15px;">
-                        3
-                    </div>
-                    <h4 class="fw-bold text-dark mb-2" style="font-size: 15px;">Send Requests</h4>
-                    <p class="text-secondary mb-0" style="font-size: 13px; line-height: 1.5;">
-                        Make HTTP POST calls to <code class="bg-white text-dark px-1 rounded border">/json/2/&lt;model&gt;/&lt;method&gt;</code> with the Bearer header.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-3 mb-3">
-                <div class="card bg-light border h-100 p-3 rounded-3">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle fw-bold mb-3" style="width: 36px; height: 36px; font-size: 15px;">
-                        4
-                    </div>
-                    <h4 class="fw-bold text-dark mb-2" style="font-size: 15px;">Monitor Logs</h4>
-                    <p class="text-secondary mb-0" style="font-size: 13px; line-height: 1.5;">
-                        View response times, status codes, and tracebacks in <strong>JSON-RPC 2.0 &rsaquo; API Logs</strong>.
-                    </p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ═══════════════════ TECHNICAL INFO & FOOTER ═══════════════════ -->
-    <div class="card bg-dark text-white border-0 shadow text-center p-4 p-md-5" style="border-radius: 16px;">
-        <h4 class="fw-bold text-white mb-2" style="font-size: 20px;">
-            Technical Specifications &amp; Compatibility
+    <!-- FOOTER -->
+    <div style="background-color: #1b1e2b; border-radius: 14px; padding: 28px; text-align: center; margin-bottom: 10px;">
+        <h4 style="font-size: 18px; font-weight: 800; color: #ffffff; margin: 0 0 8px;">
+            Compatibility &amp; Support
         </h4>
-        <p class="text-light mb-4 mx-auto" style="max-width: 650px; font-size: 15px; line-height: 1.6;">
-            Compatible with Odoo 16.0, 17.0, and 18.0 (Community &amp; Enterprise). Requires only standard Odoo <code class="bg-secondary text-white px-2 py-1 rounded">base</code> module dependencies.
+        <p style="font-size: 14px; color: #d1d5db; margin: 0 0 14px; line-height: 1.6;">
+            Odoo 16.0, 17.0, 18.0 (Community &amp; Enterprise). Only requires the standard <span style="font-family: monospace; color: #67e8f9;">base</span> module.
         </p>
-
-        <div class="d-flex flex-wrap justify-content-center text-light mb-3" style="font-size: 14px;">
-            <span class="mx-2 mb-2">License: <strong class="text-white">LGPL-3</strong></span>
-            <span class="mx-2 mb-2">Maintainer: <strong class="text-white">David Carreres G&oacute;mez</strong></span>
-            <span class="mx-2 mb-2">Website: <a href="https://www.carreres.es/" target="_blank" rel="noopener noreferrer" class="text-info fw-bold">carreres.es</a></span>
-            <span class="mx-2 mb-2">Support: <a href="mailto:david@carreres.es" class="text-info fw-bold">david@carreres.es</a></span>
-        </div>
-
-        <div class="border-top border-secondary pt-3 text-muted" style="font-size: 12.5px;">
-            JSON/2 API &amp; JSON-RPC 2.0 Module for Odoo &copy; 2026. All rights reserved.
-        </div>
+        <p style="font-size: 13px; color: #9ca3af; margin: 0;">
+            License: <strong style="color: #ffffff;">LGPL-3</strong>
+            &nbsp; | &nbsp;
+            Maintainer: <strong style="color: #ffffff;">David Carreres Gomez</strong>
+            &nbsp; | &nbsp;
+            <a href="https://www.carreres.es/" style="color: #67e8f9;">carreres.es</a>
+            &nbsp; | &nbsp;
+            <a href="mailto:david@carreres.es" style="color: #67e8f9;">david@carreres.es</a>
+        </p>
     </div>
 
-</div>
+</section>
