@@ -166,8 +166,13 @@ else:
 
 ---
 
-### Step 4 — OpenAPI & Postman
+### Step 4 — Interactive Documentation & Schema Introspector
 
+The module automatically exposes live documentation and introspection endpoints:
+
+- **Interactive API Documentation & Swagger UI**: `GET https://your-odoo.com/json/2/docs`
+- **Dynamic Model Schema & Payloads**: `GET https://your-odoo.com/json/2/schema/<model_name>` *(e.g. `/json/2/schema/res.partner`)*
+- **List Accessible Models**: `GET https://your-odoo.com/json/2/models`
 - **OpenAPI 3.0 Specification**: `GET https://your-odoo.com/json/2/openapi.json`
 - **Postman Collection**: `GET https://your-odoo.com/json/2/postman_collection.json`
 

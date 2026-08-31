@@ -76,3 +76,20 @@ class TestJson2ServiceAndController(TransactionCase):
         self.assertEqual(resp.get('id'), 42)
         self.assertIn('result', resp)
         self.assertNotIn('error', resp)
+
+    def test_05_dynamic_schema_introspection(self):
+        """Verifica la generación de esquema dinámico de un modelo."""
+        schema = svc.get_model_schema(self.db_name, self.test_user.id, 'res.partner')
+        self.assertEqual(schema['model'], 'res.partner')
+        self.assertIn('properties', schema)
+        self.assertIn('name', schema['properties'])
+        self.assertIn('supported_methods', schema)
+        self.assertIn('search_read', schema['supported_methods'])
+
+    def test_06_list_accessible_models(self):
+        """Verifica el listado de modelos disponibles."""
+        models = svc.list_accessible_models(self.db_name, self.test_user.id)
+        model_names = [m['model'] for m in models]
+        self.assertIn('res.partner', model_names)
+        self.assertIn('res.users', model_names)
+
