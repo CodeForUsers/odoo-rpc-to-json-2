@@ -11,9 +11,20 @@
             <form string="Generate API Key">
                 <sheet>
                     <group attrs="{'invisible': [('generated_key', '!=', False)]}">
-                        <field name="name"/>
-                        <field name="user_id"/>
-                        <field name="expires_at"/>
+                        <group string="General Information">
+                            <field name="name"/>
+                            <field name="user_id"/>
+                            <field name="expires_at"/>
+                        </group>
+                        <group string="Rate Limiting (Optional)">
+                            <field name="rate_limit_requests"/>
+                            <field name="rate_limit_interval" attrs="{'invisible': [('rate_limit_requests', '&lt;=', 0)]}"/>
+                        </group>
+                    </group>
+                    <group string="Access Restrictions (Optional)" attrs="{'invisible': [('generated_key', '!=', False)]}">
+                        <field name="allowed_model_ids" widget="many2many_tags" placeholder="Leave empty for all accessible models..."/>
+                        <field name="allowed_methods" placeholder="e.g. search_read,read,create (Leave empty for all methods)"/>
+                        <field name="allowed_ips" placeholder="e.g. 192.168.1.50, 10.0.0.0/24 (Leave empty for any IP)"/>
                     </group>
                     
                     <div attrs="{'invisible': [('generated_key', '=', False)]}">
@@ -54,6 +65,7 @@
                 <field name="name" string="Description"/>
                 <field name="user_id"/>
                 <field name="active"/>
+                <field name="rate_limit_requests" string="Rate Limit"/>
                 <field name="last_used"/>
                 <field name="expires_at"/>
                 <field name="create_date" string="Created"/>
@@ -74,22 +86,37 @@
                     <widget name="web_ribbon" title="Archived"
                             attrs="{'invisible': [('active', '=', True)]}"/>
                     <group>
-                        <group>
+                        <group string="Identification">
                             <field name="name"/>
                             <field name="user_id"/>
                             <field name="active" invisible="1"/>
                         </group>
-                        <group>
+                        <group string="Status &amp; Expiration">
                             <field name="key_prefix"/>
                             <field name="expires_at"/>
                             <field name="last_used"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Security Restrictions" name="security_restrictions">
+                            <group>
+                                <field name="allowed_model_ids" widget="many2many_tags" placeholder="Leave empty for all models..."/>
+                                <field name="allowed_methods" placeholder="e.g. search_read,read,create"/>
+                                <field name="allowed_ips" placeholder="e.g. 192.168.1.50, 10.0.0.0/24"/>
+                            </group>
+                        </page>
+                        <page string="Rate Limiting" name="rate_limiting">
+                            <group>
+                                <field name="rate_limit_requests"/>
+                                <field name="rate_limit_interval" attrs="{'invisible': [('rate_limit_requests', '&lt;=', 0)]}"/>
+                            </group>
+                        </page>
+                    </notebook>
                     <div class="alert alert-warning" role="alert"
                          attrs="{'invisible': [('id', '!=', False)]}">
                         <strong>Important:</strong>
                         The full API key will be shown <b>only once</b> after
-                        creation.  Make sure to copy it and store it securely.
+                        creation. Make sure to copy it and store it securely.
                     </div>
                 </sheet>
             </form>
@@ -140,7 +167,5 @@
             </p>
         </field>
     </record>
-
-
 
 </odoo>

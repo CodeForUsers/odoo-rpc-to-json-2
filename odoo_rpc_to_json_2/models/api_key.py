@@ -5,18 +5,27 @@ Modelo de API Key para autenticación JSON/2 + JSON-RPC 2.0.
 Diseño de seguridad (coincide con res.users.apikeys de Odoo 19):
   - Claves generadas con secrets.token_urlsafe(48) → 64 caracteres url-safe
   - Almacenadas como hash SHA-256 (nunca en texto plano)
-  - Comparación segura contra ataques de tiempo con hmac.compare_digest
+  - Indexación por hash para búsquedas O(1) de alto rendimiento
+  - Restricción granular opcional de modelos permitidos
+  - Restricción granular opcional de métodos ORM permitidos
+  - Lista blanca opcional de IPs y subredes CIDR
+  - Límite de tasa de peticiones (Rate Limiting)
   - Caducidad opcional
   - last_used se actualiza en cada autenticación exitosa
   - La clave cruda se devuelve en el contexto *una sola vez* justo tras su creación
 """
 
+from datetime import timedelta
 import hashlib
 import hmac
+import ipaddress
+import logging
 import secrets
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, AccessDenied, AccessError, UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class JsonRpc2ApiKey(models.Model):
@@ -41,6 +50,7 @@ class JsonRpc2ApiKey(models.Model):
         string='Key Hash (SHA-256)',
         readonly=True,
         copy=False,
+        index=True,
         help='SHA-256 hexadecimal hash. The raw key is only displayed when created.',
     )
     key_prefix = fields.Char(
@@ -57,6 +67,35 @@ class JsonRpc2ApiKey(models.Model):
         help='Leave empty for a key without expiration.',
     )
 
+    # -- Restricciones de Seguridad Avanzada -------------------------------
+    allowed_model_ids = fields.Many2many(
+        'ir.model',
+        'jsonrpc2_api_key_model_rel',
+        'key_id',
+        'model_id',
+        string='Allowed Models',
+        help='If set, this key will only be permitted to access these specific models. Leave empty to allow all models accessible by the user.',
+    )
+    allowed_methods = fields.Char(
+        string='Allowed Methods',
+        help='Comma-separated list of allowed ORM methods (e.g. "search_read,read,create"). Leave empty for all public methods.',
+    )
+    allowed_ips = fields.Char(
+        string='Allowed IPs / CIDR',
+        help='Comma-separated list of allowed IP addresses or CIDR blocks (e.g., "192.168.1.50, 10.0.0.0/24"). Leave empty to allow any IP.',
+    )
+    rate_limit_requests = fields.Integer(
+        string='Max Requests',
+        default=0,
+        help='Maximum requests allowed per interval. 0 means unlimited.',
+    )
+    rate_limit_interval = fields.Selection(
+        [('minute', 'Per Minute'), ('hour', 'Per Hour'), ('day', 'Per Day')],
+        string='Rate Limit Interval',
+        default='minute',
+        required=True,
+    )
+
     # ------------------------------------------------------------------
     # Restricciones
     # ------------------------------------------------------------------
@@ -64,9 +103,28 @@ class JsonRpc2ApiKey(models.Model):
     @api.constrains('name')
     def _check_name_length(self):
         for rec in self:
-            if len(rec.name.strip()) < 3:
+            if len((rec.name or '').strip()) < 3:
                 raise ValidationError(
                     _("The API key description must have at least 3 characters."))
+
+    @api.constrains('allowed_ips')
+    def _check_allowed_ips_format(self):
+        for rec in self:
+            if not rec.allowed_ips:
+                continue
+            for raw_entry in rec.allowed_ips.split(','):
+                entry = raw_entry.strip()
+                if not entry:
+                    continue
+                try:
+                    ipaddress.ip_network(entry, strict=False)
+                except ValueError:
+                    try:
+                        ipaddress.ip_address(entry)
+                    except ValueError:
+                        raise ValidationError(
+                            _('Invalid IP or CIDR range in allowed IPs: "%s"') % entry
+                        )
 
     # ------------------------------------------------------------------
     # CRUD
@@ -74,69 +132,108 @@ class JsonRpc2ApiKey(models.Model):
 
     @api.model
     def create(self, vals):
-        """Genera una clave criptográficamente segura; almacena solo su hash.
-
-        La clave cruda es accesible mediante self.env.context['raw_api_key']
-        inmediatamente después de su creación (visualización de un solo uso).
-        """
+        """Genera una clave criptográficamente segura; almacena solo su hash."""
         raw_key = 'jrpc2_' + secrets.token_urlsafe(48)
         vals['key_hash'] = hashlib.sha256(raw_key.encode('utf-8')).hexdigest()
         vals['key_prefix'] = raw_key[:12]
         record = super().create(vals)
-        # Exponer clave cruda en el contexto para el wizard/API de visualización única
         return record.with_context(raw_api_key=raw_key)
 
     @api.model
-    def generate_key(self, name, user_id=None):
-        """Crea una nueva API key y devuelve la clave cruda (mostrada una sola vez).
-
-        Esta es la forma principal de generar API keys programáticamente,
-        reflejando el patrón de Odoo 19 de mostrar la clave cruda solo al crearla.
-
-        Retorna:
-            dict: {'id': <key_id>, 'key': '<raw_api_key>'}
-        """
-        vals = {'name': name}
+    def generate_key(self, name, user_id=None, expires_at=None,
+                     allowed_model_ids=None, allowed_methods=None,
+                     allowed_ips=None, rate_limit_requests=0,
+                     rate_limit_interval='minute'):
+        """Crea una nueva API key con restricciones y devuelve la clave cruda."""
+        vals = {
+            'name': name,
+            'rate_limit_requests': rate_limit_requests,
+            'rate_limit_interval': rate_limit_interval,
+        }
         if user_id:
             vals['user_id'] = user_id
+        if expires_at:
+            vals['expires_at'] = expires_at
+        if allowed_model_ids:
+            vals['allowed_model_ids'] = [(6, 0, allowed_model_ids)]
+        if allowed_methods:
+            vals['allowed_methods'] = allowed_methods
+        if allowed_ips:
+            vals['allowed_ips'] = allowed_ips
+
         record = self.create(vals)
         raw_key = record.env.context.get('raw_api_key', '')
         return {'id': record.id, 'key': raw_key}
 
     # ------------------------------------------------------------------
-    # Funciones auxiliares públicas
+    # Validaciones de Seguridad por Petición
     # ------------------------------------------------------------------
 
-    @api.model
-    def _authenticate_by_key(self, raw_key):
-        """Valida *raw_key* y devuelve el registro res.users enlazado o False.
+    def check_ip_allowed(self, client_ip):
+        """Verifica si client_ip cumple con la lista blanca allowed_ips."""
+        self.ensure_one()
+        if not self.allowed_ips or not client_ip:
+            return True
+        try:
+            ip_obj = ipaddress.ip_address(client_ip.strip())
+        except ValueError:
+            _logger.warning("Could not parse client IP: %s", client_ip)
+            return False
 
-        Utiliza hmac.compare_digest para una comparación en tiempo constante (timing-safe).
-        """
-        if not raw_key:
-            return False
-        key_hash = hashlib.sha256(raw_key.encode('utf-8')).hexdigest()
-        # Obtener todas las claves activas; iterar para comparación resistente a timing-attacks
-        keys = self.sudo().search([('active', '=', True)], order='id')
-        matched = None
-        for key_rec in keys:
-            stored = key_rec.key_hash or ''
-            if hmac.compare_digest(stored, key_hash):
-                matched = key_rec
-                # NO hacer break temprano – iterar siempre sobre todas las claves (seguridad)
-        if matched is None:
-            return False
-        # Comprobar caducidad
-        if matched.expires_at and matched.expires_at < fields.Datetime.now():
-            return False
-        # Actualizar last_used
-        matched.sudo().write({'last_used': fields.Datetime.now()})
-        return matched.user_id
+        for raw_entry in self.allowed_ips.split(','):
+            entry = raw_entry.strip()
+            if not entry:
+                continue
+            try:
+                network = ipaddress.ip_network(entry, strict=False)
+                if ip_obj in network:
+                    return True
+            except ValueError:
+                continue
+        return False
 
-    @api.model
-    def action_show_key(self):
-        """Devuelve la clave cruda del contexto (solo válida justo tras creación)."""
-        return self.env.context.get('raw_api_key')
+    def check_model_allowed(self, model_name):
+        """Verifica si el modelo está dentro de los modelos permitidos."""
+        self.ensure_one()
+        if not self.allowed_model_ids:
+            return True
+        allowed_models = {m.model for m in self.allowed_model_ids}
+        return model_name in allowed_models
+
+    def check_method_allowed(self, method_name):
+        """Verifica si el método ORM está permitido."""
+        self.ensure_one()
+        if not self.allowed_methods:
+            return True
+        allowed = {m.strip() for m in self.allowed_methods.split(',') if m.strip()}
+        return method_name in allowed
+
+    def check_rate_limit(self):
+        """Verifica si la clave ha excedido su límite de tasa."""
+        self.ensure_one()
+        if not self.rate_limit_requests or self.rate_limit_requests <= 0:
+            return True, None
+
+        now = fields.Datetime.now()
+        interval_delta = {
+            'minute': timedelta(minutes=1),
+            'hour': timedelta(hours=1),
+            'day': timedelta(days=1),
+        }.get(self.rate_limit_interval, timedelta(minutes=1))
+
+        since = now - interval_delta
+        count = self.env['jsonrpc2.api.log'].sudo().search_count([
+            ('user_id', '=', self.user_id.id),
+            ('auth_method', '=', 'api_key'),
+            ('create_date', '>=', since),
+        ])
+
+        if count >= self.rate_limit_requests:
+            return False, _('Rate limit exceeded. Maximum %s requests allowed per %s.') % (
+                self.rate_limit_requests, self.rate_limit_interval
+            )
+        return True, None
+
 
 class JsonRpc2ApiKeyWizard(models.TransientModel):
     _name = 'jsonrpc2.api.key.wizard'
@@ -145,22 +242,46 @@ class JsonRpc2ApiKeyWizard(models.TransientModel):
     name = fields.Char(string='Description', required=True)
     user_id = fields.Many2one('res.users', string='User', required=True, default=lambda self: self.env.user)
     expires_at = fields.Datetime(string='Expires At', help='Leave empty so it never expires.')
-    
+
+    allowed_model_ids = fields.Many2many(
+        'ir.model',
+        string='Allowed Models',
+        help='Optional: Restrict key access only to selected models.',
+    )
+    allowed_methods = fields.Char(
+        string='Allowed Methods',
+        help='Optional: Comma-separated list (e.g. "search_read,read,create").',
+    )
+    allowed_ips = fields.Char(
+        string='Allowed IPs',
+        help='Optional: Comma-separated IPs or CIDR subnets.',
+    )
+    rate_limit_requests = fields.Integer(
+        string='Max Requests (0 for unlimited)',
+        default=0,
+    )
+    rate_limit_interval = fields.Selection(
+        [('minute', 'Per Minute'), ('hour', 'Per Hour'), ('day', 'Per Day')],
+        string='Interval',
+        default='minute',
+    )
+
     generated_key = fields.Char(string='Your API Key', readonly=True)
 
     def action_generate(self):
         self.ensure_one()
-        # Generamos la clave mediante el método seguro del modelo
         res = self.env['jsonrpc2.api.key'].generate_key(
             name=self.name,
-            user_id=self.user_id.id
+            user_id=self.user_id.id,
+            expires_at=self.expires_at,
+            allowed_model_ids=self.allowed_model_ids.ids if self.allowed_model_ids else None,
+            allowed_methods=self.allowed_methods,
+            allowed_ips=self.allowed_ips,
+            rate_limit_requests=self.rate_limit_requests,
+            rate_limit_interval=self.rate_limit_interval,
         )
-        # Asignamos la fecha de expiración si la hay
-        if self.expires_at:
-            self.env['jsonrpc2.api.key'].browse(res['id']).write({'expires_at': self.expires_at})
-            
+
         self.generated_key = res['key']
-        # Recargamos la vista del wizard mostrando la clave generada
         return {
             'type': 'ir.actions.act_window',
             'name': 'Save your API Key',

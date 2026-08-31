@@ -2,7 +2,7 @@
 {
     'name': "JSON/2 API – Odoo 19 Compatibility Layer",
 
-    'summary': "Exposes Odoo 19 compatible /json/2 and /jsonrpc2 endpoints in Odoo 16/17/18",
+    'summary': "Exposes Odoo 19 compatible /json/2 and /jsonrpc2 endpoints in Odoo 16/17/18 with advanced security",
 
     'description': """
         Module that exposes two external API endpoints compatible with 
@@ -12,19 +12,24 @@
            - Modern REST API identical to Odoo 19's /json/2.
            - Authentication via ``Authorization: Bearer <api_key>``.
            - Database selection via ``X-Odoo-Database`` HTTP header.
-           - Responses with semantic HTTP codes (200/400/401/403/404/500).
+           - Responses with semantic HTTP codes (200/400/401/403/404/429/500).
 
         2. **POST /jsonrpc2**
            - JSON-RPC 2.0 compatibility layer (classic envelope).
-           - Authentication via credentials in the JSON body.
+           - Authentication via credentials or API key in the JSON body.
 
-        Security:
-        - API key comparison using timing-safe hmac.compare_digest.
-        - Keys stored as SHA-256 hash (never in plain text).
-        - Optional API key expiration.
+        Security & Advanced Features:
+        - API key comparison using timing-safe hmac.compare_digest with SHA-256 indexed lookup.
+        - Granular model restriction per API key (allowed_model_ids).
+        - Granular method restriction per API key (allowed_methods).
+        - IP whitelisting with CIDR subnet support per API key (allowed_ips).
+        - Configurable rate limiting per API key (rate_limit_requests).
+        - Full CORS and OPTIONS preflight support for web dashboards and SPAs.
+        - OpenAPI 3.0 specification endpoint (/json/2/openapi.json).
+        - Postman Collection endpoint (/json/2/postman_collection.json).
+        - Automated daily log cleanup action with configurable retention.
         - Blocking of private methods (_method).
-        - Logging and auditing of all requests.
-        - Request body size limit (10 MB).
+        - Audit trail logging execution time (ms), caller IP, and error tracebacks.
     """,
 
     'author': "David Carreres Gómez",
@@ -33,7 +38,7 @@
     'support': "david@carreres.es",
 
     'category': 'Technical',
-    'version': '16.0.2.0.1',
+    'version': '16.0.2.1.0',
     'license': 'LGPL-3',
 
     'images': [
@@ -48,6 +53,7 @@
     'data': [
         'security/jsonrpc2_security.xml',
         'security/ir.model.access.csv',
+        'data/ir_cron_data.xml',
         'views/api_key_views.xml',
         'views/api_log_views.xml',
         'views/menu.xml',

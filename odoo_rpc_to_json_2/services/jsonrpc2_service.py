@@ -3,7 +3,7 @@
 Capa de servicio para JSON/2 + JSON-RPC 2.0.
 
 Provee:
-  - authenticate_from_headers()  – Autenticación estilo REST Odoo 19
+  - authenticate_from_headers()  – Autenticación estilo REST Odoo 19 con control de acceso avanzado
   - execute_orm()                – Despacho ORM seguro para endpoint REST
   - dispatch()                   – Despachador de envolventes JSON-RPC 2.0
   - build_success_response()
@@ -11,8 +11,11 @@ Provee:
   - validate_request()
 
 Diseño de seguridad:
-  - Comparación de claves resistente a ataques de tiempo con hmac.compare_digest
-  - Claves almacenadas en SHA-256 (nunca en texto plano)
+  - Claves almacenadas en SHA-256 e indexadas para búsqueda instantánea
+  - Comparación segura con hmac.compare_digest
+  - Listas blancas de IPs y subredes CIDR por clave
+  - Restricciones de modelos y métodos ORM por clave
+  - Rate limiting configurable por clave con respuesta HTTP 429
   - Bloqueo de métodos ORM privados
   - Todas las operaciones se ejecutan en un cursor limpio con el uid autenticado
   - Los errores nunca filtran detalles internos en producción
@@ -50,6 +53,7 @@ ODOO_ACCESS_ERROR = -32001
 ODOO_VALIDATION_ERROR = -32002
 ODOO_MISSING_ERROR = -32003
 ODOO_USER_ERROR = -32004
+RATE_LIMIT_ERROR = -32005
 
 # Métodos ORM explícitamente permitidos para llamantes externos
 _PUBLIC_ORM_METHODS = frozenset({
@@ -104,11 +108,10 @@ def validate_request(payload):
 # Estilo Odoo 19: autenticación mediante cabeceras HTTP
 # ======================================================================
 
-def authenticate_from_headers(headers):
+def authenticate_from_headers(headers, client_ip=None, model_name=None, method_name=None):
     """Analiza el token Bearer + X-Odoo-Database de las cabeceras HTTP.
 
-    Devuelve (db, uid, None) en caso de éxito o (None, None, mensaje_error).
-    Utiliza comparación resistente a ataques de tiempo para prevenir ataques de oráculo.
+    Devuelve (db, uid, None) en caso de éxito o (None, None, (http_code, exc_name, mensaje_error)).
     """
     # -- Extraer token Bearer -------------------------------------------
     auth_header = headers.get('Authorization') or headers.get('authorization', '')
@@ -120,8 +123,8 @@ def authenticate_from_headers(headers):
 
     if not raw_key:
         return None, None, (
-            'Missing or malformed Authorization header. '
-            'Expected: Authorization: Bearer <api_key>'
+            401, 'odoo.exceptions.AccessDenied',
+            'Missing or malformed Authorization header. Expected: Authorization: Bearer <api_key>'
         )
 
     # -- Extraer base de datos ------------------------------------------
@@ -129,89 +132,110 @@ def authenticate_from_headers(headers):
           or headers.get('x-odoo-database', '').strip())
     if not db:
         # Fallback: intentar usar la única base de datos disponible
-        dbs = odoo.service.db.list_dbs(force=True)
-        if len(dbs) == 1:
-            db = dbs[0]
-        else:
+        try:
+            dbs = odoo.service.db.list_dbs(force=True)
+            if len(dbs) == 1:
+                db = dbs[0]
+            else:
+                return None, None, (
+                    400, 'builtins.ValueError',
+                    'Missing X-Odoo-Database header. Required when multiple databases are available.'
+                )
+        except Exception:
             return None, None, (
-                'Missing X-Odoo-Database header. '
-                'Required when multiple databases are available.'
+                400, 'builtins.ValueError',
+                'Missing X-Odoo-Database header.'
             )
 
-    # -- Validar clave (timing-safe) ------------------------------------
-    uid = _validate_api_key(db, raw_key)
-    if not uid:
-        # Mismo mensaje para clave inválida o caducada para evitar enumeración
-        return None, None, 'Invalid or expired API key.'
+    # -- Validar clave y restricciones de seguridad ---------------------
+    uid, auth_error = _validate_api_key_and_rules(
+        db, raw_key, client_ip=client_ip, model_name=model_name, method_name=method_name
+    )
+    if auth_error:
+        http_code, msg = auth_error
+        exc_type = 'odoo.exceptions.AccessError' if http_code == 403 else (
+            'odoo.exceptions.RateLimitError' if http_code == 429 else 'odoo.exceptions.AccessDenied'
+        )
+        return None, None, (http_code, exc_type, msg)
 
     return db, uid, None
 
 
-def _validate_api_key(db, raw_key):
-    """Devuelve el uid para *raw_key* o False.
+def _validate_api_key_and_rules(db, raw_key, client_ip=None, model_name=None, method_name=None):
+    """Valida la clave API contra la base de datos aplicando reglas de IP, modelo, método y rate limiting.
 
-    Utiliza hmac.compare_digest para comparación resistente a timing-attacks.
-    La comprobación se realiza con SUPERUSER para que las ACLs no interfieran.
+    Retorna:
+        (uid, None) en éxito, o (None, (http_status, error_message)) en error.
     """
     if not raw_key:
-        return False
+        return None, (401, 'Invalid or expired API key.')
+
     key_hash = hashlib.sha256(raw_key.encode('utf-8')).hexdigest()
     try:
         registry = odoo.registry(db)
         with registry.cursor() as cr:
             env = api.Environment(cr, SUPERUSER_ID, {})
-            # Obtener todas las claves activas; iterar SIEMPRE TODAS por seguridad de tiempos
-            keys = env['jsonrpc2.api.key'].sudo().search(
-                [('active', '=', True)], order='id')
-            matched = None
-            for key_rec in keys:
-                stored = key_rec.key_hash or ''
-                # Timing-safe: siempre comparar cada clave, nunca romper el bucle anticipadamente
-                if hmac.compare_digest(stored, key_hash) and matched is None:
-                    matched = key_rec
-            if matched is None:
-                return False
-            # Comprobar caducidad
-            if (matched.expires_at
-                    and matched.expires_at < odoo_fields.Datetime.now()):
-                return False
-            uid = matched.user_id.id
-            # Actualizar last_used
+            # Búsqueda optimizada O(1) por hash indexado
+            key_rec = env['jsonrpc2.api.key'].sudo().search([
+                ('key_hash', '=', key_hash),
+                ('active', '=', True)
+            ], limit=1)
+
+            if not key_rec:
+                return None, (401, 'Invalid or expired API key.')
+
+            # Doble comprobación timing-safe
+            if not hmac.compare_digest(key_rec.key_hash or '', key_hash):
+                return None, (401, 'Invalid or expired API key.')
+
+            # Comprobar fecha de caducidad
+            if key_rec.expires_at and key_rec.expires_at < odoo_fields.Datetime.now():
+                return None, (401, 'Invalid or expired API key.')
+
+            # Comprobar lista blanca de IPs
+            if client_ip and not key_rec.check_ip_allowed(client_ip):
+                _logger.warning("API key '%s' rejected for unauthorized IP %s", key_rec.name, client_ip)
+                return None, (403, f'IP address {client_ip} is not authorized for this API key.')
+
+            # Comprobar modelos permitidos
+            if model_name and not key_rec.check_model_allowed(model_name):
+                _logger.warning("API key '%s' rejected for unauthorized model %s", key_rec.name, model_name)
+                return None, (403, f'Access to model "{model_name}" is not permitted for this API key.')
+
+            # Comprobar métodos ORM permitidos
+            if method_name and not key_rec.check_method_allowed(method_name):
+                _logger.warning("API key '%s' rejected for unauthorized method %s", key_rec.name, method_name)
+                return None, (403, f'Calling method "{method_name}" is not permitted for this API key.')
+
+            # Comprobar límite de tasa (Rate Limiting)
+            rate_ok, rate_msg = key_rec.check_rate_limit()
+            if not rate_ok:
+                return None, (429, rate_msg)
+
+            uid = key_rec.user_id.id
+            # Actualizar fecha de último uso
             try:
-                matched.sudo().write(
-                    {'last_used': odoo_fields.Datetime.now()})
+                key_rec.sudo().write({'last_used': odoo_fields.Datetime.now()})
                 cr.commit()
             except Exception:
                 cr.rollback()
-            return uid
+
+            return uid, None
+
     except Exception:
         _logger.warning('Error validating API key', exc_info=True)
-    return False
-
+        return None, (401, 'Authentication error.')
 
 
 # ======================================================================
 # Estilo Odoo 19: ejecutar llamada ORM (endpoint REST)
 # ======================================================================
 
-# Métodos que toman un único diccionario posicional (vals) en convención Odoo
 _VALS_FIRST_METHODS = frozenset({'create', 'new'})
-# Métodos que toman ids como primer argumento vía browse (manejados por _handle_call)
-# NO son necesarios aquí ya que el endpoint REST no usa la convención ids-primero
 
 
 def _call_rest_method(fn, method_name, params):
-    """Despacho inteligente para llamadas estilo REST.
-
-    Odoo 19 /json/2 pasa el cuerpo JSON como **kwargs.
-    Pero los métodos ORM clásicos tienen varias convenciones de llamada.
-
-    Convenciones de cuerpo soportadas:
-      - create:              body = {campo: val, ...}         → create(body)
-      - search/search_read:  body = {domain: [...], ...}      → search(domain, **rest)
-      - unlink/write:        body = {ids: [id,...], ...}      → browse(ids).unlink()
-      - todos los demás:     body = {kwarg: val, ...}         → fn(**body)
-    """
+    """Despacho inteligente para llamadas estilo REST."""
     if not isinstance(params, dict):
         params = {}
 
@@ -239,11 +263,7 @@ def _call_rest_method(fn, method_name, params):
 
 
 def execute_orm(db, uid, model_name, method_name, params, client_ip, debug):
-    """Ejecuta model_name.method_name(**params) como uid.
-
-    Devuelve (result, None) en éxito o (None, exc_info_tuple) en caso de error
-    donde exc_info_tuple = (http_status, exc_name, mensaje, argumentos, traceback_str).
-    """
+    """Ejecuta model_name.method_name(**params) como uid."""
     # Seguridad: bloquear métodos privados
     if method_name.startswith('_'):
         exc_info = (
@@ -272,18 +292,11 @@ def execute_orm(db, uid, model_name, method_name, params, client_ip, debug):
                 raise UserError(
                     f'Method "{method_name}" not found on model "{model_name}".')
 
-            # Convención REST de Odoo 19: el cuerpo JSON se pasa como **kwargs.
-            # Sin embargo, algunos métodos ORM toman argumentos posicionales (ej. create(vals),
-            # search(domain)). Usamos un despacho inteligente:
-            #
-            #  1. Si params tiene una clave posicional conocida para este método → posicional
-            #  2. De lo contrario intenta **params; si hay TypeError, recae en posicional
             result = _call_rest_method(fn, method_name, params)
 
             # Convertir recordsets → serializables JSON
             if isinstance(result, odoo_models.BaseModel):
                 ids = result.ids
-                # Resultado de un solo registro (ej. create) → entero limpio como Odoo 19
                 result = ids[0] if len(ids) == 1 else ids
 
             cr.commit()
@@ -341,7 +354,9 @@ def execute_orm(db, uid, model_name, method_name, params, client_ip, debug):
 # ======================================================================
 
 class _AuthError(Exception):
-    """Centinela para fallos de autenticación."""
+    def __init__(self, message, code=AUTH_ERROR):
+        super().__init__(message)
+        self.code = code
 
 
 def _authenticate_password(db, login, password):
@@ -354,32 +369,34 @@ def _authenticate_password(db, login, password):
     return uid
 
 
-def _resolve_legacy_auth(params):
-    """Resuelve credenciales del cuerpo de parámetros JSON-RPC.
-
-    Soporta:
-      1. db + login + password
-      2. db + api_key  (Clave Bearer en parámetros)
-    """
+def _resolve_legacy_auth(params, client_ip=None):
+    """Resuelve credenciales del cuerpo de parámetros JSON-RPC."""
     db = params.get('db')
     if not db:
         raise _AuthError('Missing "db" in params.')
 
+    model_name = params.get('model')
+    method_name = params.get('method')
+
     # Ruta API Key
     raw_key = params.get('api_key')
     if raw_key:
-        uid = _validate_api_key(db, raw_key)
-        if not uid:
-            raise _AuthError('Invalid or expired API key.')
+        uid, auth_error = _validate_api_key_and_rules(
+            db, raw_key, client_ip=client_ip, model_name=model_name, method_name=method_name
+        )
+        if auth_error:
+            http_code, msg = auth_error
+            code = RATE_LIMIT_ERROR if http_code == 429 else (
+                ODOO_ACCESS_ERROR if http_code == 403 else AUTH_ERROR
+            )
+            raise _AuthError(msg, code=code)
         return db, uid, 'api_key'
 
     # Ruta de contraseña
     login = params.get('login')
     password = params.get('password')
     if not login or not password:
-        raise _AuthError(
-            'Provide "login"+"password" or "api_key" in params.'
-        )
+        raise _AuthError('Provide "login"+"password" or "api_key" in params.')
     uid = _authenticate_password(db, login, password)
     if not uid:
         raise _AuthError('Invalid login or password.')
@@ -387,10 +404,7 @@ def _resolve_legacy_auth(params):
 
 
 def dispatch(payload, client_ip=None, debug=False):
-    """Despachador de envolventes JSON-RPC 2.0.
-
-    Devuelve un diccionario serializable en JSON.
-    """
+    """Despachador de envolventes JSON-RPC 2.0."""
     request_id = payload.get('id')
     params = payload.get('params') or {}
     method = payload.get('method')
@@ -398,13 +412,13 @@ def dispatch(payload, client_ip=None, debug=False):
 
     # -- Autenticación ----------------------------------------------------
     try:
-        db, uid, auth_method = _resolve_legacy_auth(params)
+        db, uid, auth_method = _resolve_legacy_auth(params, client_ip=client_ip)
     except _AuthError as exc:
-        return build_error_response(AUTH_ERROR, str(exc), request_id=request_id)
+        return build_error_response(exc.code, str(exc), request_id=request_id)
 
     # -- Despacho ---------------------------------------------------------
     model_name = params.get('model', '')
-    model_method = params.get('method', '')  # Método ORM (dentro de call)
+    model_method = params.get('method', '')
 
     try:
         if method == 'call':
@@ -501,13 +515,6 @@ def _handle_call(db, uid, params, debug=False):
 
         model = env[model_name]
 
-        # Convención Odoo XMLRPC/JSON-RPC 2.0:
-        # Cuando args[0] es una lista de enteros (ids de registros), buscar esos registros
-        # primero y llamar al método sobre el recordset resultante.
-        # Ejemplos:
-        #   write:  args=[[id1, id2], {vals}] → model.browse([id1,id2]).write({vals})
-        #   unlink: args=[[id1, id2]]         → model.browse([id1,id2]).unlink()
-        #   read:   args=[[id], [fields]]     → model.browse([id]).read([fields])
         if (args
                 and isinstance(args[0], list)
                 and all(isinstance(x, int) for x in args[0])):
@@ -521,7 +528,6 @@ def _handle_call(db, uid, params, debug=False):
 
         result = fn(*args, **kwargs)
 
-        # Convert recordsets → JSON-serialisable
         if isinstance(result, odoo_models.BaseModel):
             ids = result.ids
             result = ids[0] if len(ids) == 1 else ids
