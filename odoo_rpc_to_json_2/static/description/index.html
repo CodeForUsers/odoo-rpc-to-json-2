@@ -19,7 +19,7 @@
             <span style="background-color: #374151; color: #67e8f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: monospace;">/json/2/&lt;model&gt;/&lt;method&gt;</span>
             and
             <span style="background-color: #374151; color: #67e8f9; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: monospace;">/jsonrpc2</span>
-            in your current Odoo instance. Secure Bearer token authentication. Zero external dependencies.
+            in your current Odoo instance. Secure Bearer token authentication, IP whitelisting, rate limiting, and OpenAPI/Postman exports.
         </p>
 
         <div style="text-align: center;">
@@ -32,7 +32,7 @@
 
     <!-- KEY FEATURES -->
     <h3 style="font-size: 22px; font-weight: 800; color: #111827; text-align: center; margin: 0 0 6px;">Key Capabilities</h3>
-    <p style="font-size: 14px; color: #6b7280; text-align: center; margin: 0 0 24px;">Clean architecture, predictable authentication, easy maintenance.</p>
+    <p style="font-size: 14px; color: #6b7280; text-align: center; margin: 0 0 24px;">Clean architecture, granular security, predictable authentication, and developer tooling.</p>
 
     <table style="width: 100%; border-collapse: separate; border-spacing: 12px; margin-bottom: 36px;">
         <tr>
@@ -40,30 +40,30 @@
                 <div style="font-size: 24px; margin-bottom: 10px;">&#9889;</div>
                 <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Odoo 19 REST Interface</h4>
                 <p style="font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6;">
-                    Direct mapping to ORM methods via <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/json/2/&lt;model&gt;/&lt;method&gt;</span>. Returns standard JSON with semantic HTTP status codes (200, 400, 401, 403, 500).
+                    Direct mapping to ORM methods via <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/json/2/&lt;model&gt;/&lt;method&gt;</span>. Returns standard JSON with semantic HTTP status codes (200, 400, 401, 403, 429, 500).
                 </p>
             </td>
             <td style="width: 50%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px;">
                 <div style="font-size: 24px; margin-bottom: 10px;">&#128274;</div>
-                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Secure Token Authentication</h4>
+                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Granular Security &amp; IP Whitelist</h4>
                 <p style="font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6;">
-                    API keys stored as SHA-256 hashes. Constant-time validation via <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">hmac.compare_digest</span>. Optional token expiration dates.
+                    Restrict keys to specific models, methods, or IP/CIDR subnets (<span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">10.0.0.0/24</span>). Timing-safe SHA-256 validation with fast index lookup.
                 </p>
             </td>
         </tr>
         <tr>
             <td style="width: 50%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px;">
-                <div style="font-size: 24px; margin-bottom: 10px;">&#128203;</div>
-                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Request Logging &amp; Audit</h4>
+                <div style="font-size: 24px; margin-bottom: 10px;">&#9201;</div>
+                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Rate Limiting &amp; Log Cleanup</h4>
                 <p style="font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6;">
-                    Every request is logged: timestamp, client IP, user, endpoint, HTTP status, duration (ms), and error tracebacks in debug mode.
+                    Configurable request throttling (per minute/hour/day). Automated daily scheduled cron job for purging old API audit logs according to retention policies.
                 </p>
             </td>
             <td style="width: 50%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 22px;">
-                <div style="font-size: 24px; margin-bottom: 10px;">&#128257;</div>
-                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">Dual Protocol Support</h4>
+                <div style="font-size: 24px; margin-bottom: 10px;">&#128736;</div>
+                <h4 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0 0 8px;">CORS, OpenAPI &amp; Postman</h4>
                 <p style="font-size: 13px; color: #4b5563; margin: 0; line-height: 1.6;">
-                    REST-style <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/json/2/</span> endpoint and the classic JSON-RPC 2.0 envelope <span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/jsonrpc2</span>. Compatible with any HTTP client.
+                    Full CORS &amp; OPTIONS preflight for SPAs. Includes ready-to-import OpenAPI 3.0 (<span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/openapi.json</span>) and Postman (<span style="background-color: #e5e7eb; color: #111827; padding: 1px 4px; border-radius: 3px; font-size: 12px; font-family: monospace;">/postman_collection.json</span>) exports.
                 </p>
             </td>
         </tr>
@@ -74,12 +74,13 @@
         <span style="display: inline-block; background-color: #111827; color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; margin-bottom: 10px;">Access Control</span>
         <h3 style="font-size: 20px; font-weight: 800; color: #111827; margin: 0 0 10px;">API Key Management</h3>
         <p style="font-size: 14px; color: #374151; line-height: 1.7; margin: 0 0 14px;">
-            Create and manage API keys tied to specific Odoo users. Each key inherits the user's security groups, ACLs, and record rules natively.
+            Create and manage API keys tied to specific Odoo users. Each key inherits user ACLs and can be further restricted with granular model, method, IP whitelisting, and rate limits.
         </p>
         <ul style="padding-left: 20px; margin: 0 0 18px; color: #374151; font-size: 13px; line-height: 1.9;">
             <li>User-bound permissions with native Odoo security enforcement.</li>
+            <li>Model and method restrictions (Principle of Least Privilege).</li>
+            <li>IP whitelist and CIDR subnet restrictions.</li>
             <li>Individual Active / Inactive toggle for immediate revocation.</li>
-            <li>Optional expiration dates for temporary access.</li>
         </ul>
         <div style="border: 2px solid #d1d5db; border-radius: 10px; overflow: hidden;">
             <img src="screenshot_api_keys.png" alt="API Key Management Panel" style="width: 100%; display: block;" />
@@ -95,8 +96,8 @@
         </p>
         <ul style="padding-left: 20px; margin: 0 0 18px; color: #374151; font-size: 13px; line-height: 1.9;">
             <li>One-time display of the plain token (not stored in cleartext).</li>
-            <li>SHA-256 hashing applied immediately upon storage.</li>
-            <li>Simple modal accessible from the technical menu.</li>
+            <li>SHA-256 hashing applied immediately upon storage with fast index lookup.</li>
+            <li>Optional model/method/IP restrictions and rate limit configuration.</li>
         </ul>
         <div style="border: 2px solid #d1d5db; border-radius: 10px; overflow: hidden;">
             <img src="screenshot_api_key_wizard.png" alt="API Key Generation Wizard" style="width: 100%; display: block;" />
@@ -114,6 +115,7 @@
             <li>Tracks response duration (ms) to detect slow operations.</li>
             <li>Records caller IP addresses and HTTP status codes.</li>
             <li>Stores Python tracebacks for failed requests (debug mode).</li>
+            <li>Automatic log purging with scheduled cron cleanup.</li>
         </ul>
         <div style="border: 2px solid #d1d5db; border-radius: 10px; overflow: hidden;">
             <img src="screenshot_api_logs.png" alt="API Request Logs Panel" style="width: 100%; display: block;" />
@@ -150,7 +152,7 @@
                 <td style="padding: 10px 14px; font-weight: 700; color: #111827; border: 1px solid #e5e7eb;">HTTP Codes</td>
                 <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">Always 200</td>
                 <td style="padding: 10px 14px; color: #6b7280; border: 1px solid #e5e7eb;">Always 200</td>
-                <td style="padding: 10px 14px; color: #059669; font-weight: 700; border: 1px solid #e5e7eb; background-color: #ecfdf5;">200, 400, 401, 403, 500</td>
+                <td style="padding: 10px 14px; color: #059669; font-weight: 700; border: 1px solid #e5e7eb; background-color: #ecfdf5;">200, 400, 401, 403, 429, 500</td>
             </tr>
             <tr style="background-color: #f9fafb;">
                 <td style="padding: 10px 14px; font-weight: 700; color: #111827; border: 1px solid #e5e7eb;">Format</td>
@@ -263,7 +265,7 @@ curl -X POST https://your-odoo.com/jsonrpc2 \
             <td style="width: 25%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px; text-align: center;">
                 <div style="display: inline-block; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; background-color: #2563eb; color: #ffffff; font-weight: 800; font-size: 14px; margin-bottom: 10px;">2</div>
                 <h4 style="font-size: 14px; font-weight: 700; color: #111827; margin: 0 0 6px;">Create Key</h4>
-                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.5;">Go to JSON-RPC 2.0 &gt; Generate API Key. Pick a user and copy your token.</p>
+                <p style="font-size: 12px; color: #6b7280; margin: 0; line-height: 1.5;">Go to JSON-RPC 2.0 &gt; Generate API Key. Pick a user and configure restrictions.</p>
             </td>
             <td style="width: 25%; vertical-align: top; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px; text-align: center;">
                 <div style="display: inline-block; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; background-color: #2563eb; color: #ffffff; font-weight: 800; font-size: 14px; margin-bottom: 10px;">3</div>
