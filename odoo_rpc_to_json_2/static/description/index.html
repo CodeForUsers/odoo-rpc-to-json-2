@@ -166,12 +166,12 @@
     <p style="font-size: 14px; color: #6b7280; text-align: center; margin: 0 0 20px;">REST endpoint and JSON-RPC 2.0 envelope examples.</p>
 
     <!-- cURL -->
-    <div style="margin-bottom: 20px;">
-        <div style="background-color: #1b1e2b; color: #67e8f9; font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 10px 10px 0 0;">
+    <div style="margin-bottom: 20px; border: 1px solid #d1d5db; border-radius: 10px; overflow: hidden;">
+        <div style="background-color: #111827; color: #e5e7eb; font-size: 13px; font-weight: 700; padding: 10px 16px;">
             cURL - POST /json/2/&lt;model&gt;/&lt;method&gt;
         </div>
-        <div style="background-color: #111827; border-radius: 0 0 10px 10px; padding: 18px; overflow-x: auto;">
-            <pre style="margin: 0; font-family: monospace; font-size: 12px; line-height: 1.7; color: #e5e7eb; white-space: pre-wrap;"><code style="color: #e5e7eb;"># Search partners
+        <pre style="margin: 0; font-size: 12px; line-height: 1.7;">
+# Search partners
 curl -X POST https://your-odoo.com/json/2/res.partner/search_read \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer jrpc2_your_api_key" \
@@ -183,17 +183,17 @@ curl -X POST https://your-odoo.com/json/2/res.partner/create \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer jrpc2_your_api_key" \
   -H "X-Odoo-Database: your_db" \
-  -d '{"name": "Integration Corp", "email": "api@example.com"}'</code></pre>
-        </div>
+  -d '{"name": "Integration Corp", "email": "api@example.com"}'
+        </pre>
     </div>
 
     <!-- Python -->
-    <div style="margin-bottom: 20px;">
-        <div style="background-color: #1b1e2b; color: #67e8f9; font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 10px 10px 0 0;">
+    <div style="margin-bottom: 20px; border: 1px solid #d1d5db; border-radius: 10px; overflow: hidden;">
+        <div style="background-color: #111827; color: #e5e7eb; font-size: 13px; font-weight: 700; padding: 10px 16px;">
             Python (requests)
         </div>
-        <div style="background-color: #111827; border-radius: 0 0 10px 10px; padding: 18px; overflow-x: auto;">
-            <pre style="margin: 0; font-family: monospace; font-size: 12px; line-height: 1.7; color: #e5e7eb; white-space: pre-wrap;"><code style="color: #e5e7eb;">import requests
+        <pre style="margin: 0; font-size: 12px; line-height: 1.7;">
+import requests
 
 url = "https://your-odoo.com/json/2/res.partner/search_read"
 headers = {
@@ -202,24 +202,24 @@ headers = {
     "Content-Type": "application/json"
 }
 payload = {
-    "domain": [["customer_rank", ">", 0]],
+    "domain": [["customer_rank", "&gt;", 0]],
     "fields": ["id", "name", "email"],
     "limit": 10
 }
 
 response = requests.post(url, json=payload, headers=headers)
 print("Status:", response.status_code)
-print("Data:", response.json())</code></pre>
-        </div>
+print("Data:", response.json())
+        </pre>
     </div>
 
     <!-- JSON-RPC 2.0 -->
-    <div style="margin-bottom: 20px;">
-        <div style="background-color: #1b1e2b; color: #67e8f9; font-size: 13px; font-weight: 700; padding: 10px 16px; border-radius: 10px 10px 0 0;">
+    <div style="margin-bottom: 20px; border: 1px solid #d1d5db; border-radius: 10px; overflow: hidden;">
+        <div style="background-color: #111827; color: #e5e7eb; font-size: 13px; font-weight: 700; padding: 10px 16px;">
             JSON-RPC 2.0 - POST /jsonrpc2
         </div>
-        <div style="background-color: #111827; border-radius: 0 0 10px 10px; padding: 18px; overflow-x: auto;">
-            <pre style="margin: 0; font-family: monospace; font-size: 12px; line-height: 1.7; color: #e5e7eb; white-space: pre-wrap;"><code style="color: #e5e7eb;">curl -X POST https://your-odoo.com/jsonrpc2 \
+        <pre style="margin: 0; font-size: 12px; line-height: 1.7;">
+curl -X POST https://your-odoo.com/jsonrpc2 \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer jrpc2_your_api_key" \
   -d '{
@@ -233,20 +233,20 @@ print("Data:", response.json())</code></pre>
       "args": [[]],
       "kwargs": {"fields": ["name"], "limit": 5}
     }
-  }'</code></pre>
-        </div>
+  }'
+        </pre>
     </div>
 
     <!-- Error format -->
     <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 0 10px 10px 0; padding: 18px; margin-bottom: 36px;">
         <h4 style="font-size: 14px; font-weight: 700; color: #92400e; margin: 0 0 8px;">Error Response Format (e.g. 403)</h4>
-        <div style="background-color: #111827; border-radius: 8px; padding: 14px; overflow-x: auto;">
-            <pre style="margin: 0; font-family: monospace; font-size: 12px; line-height: 1.6; color: #e5e7eb; white-space: pre-wrap;"><code style="color: #e5e7eb;">{
+        <pre style="margin: 0; font-size: 12px; line-height: 1.6;">
+{
   "name": "odoo.exceptions.AccessError",
   "message": "You do not have permission to access this document.",
   "debug": "(traceback - only in Odoo debug mode)"
-}</code></pre>
-        </div>
+}
+        </pre>
     </div>
 
     <!-- QUICK SETUP -->
