@@ -1,7 +1,7 @@
 # JSON/2 API Compatibility Layer — Odoo 19 Standard for Odoo 16, 17 & 18
 
 This module implements the **JSON/2 API** and **JSON-RPC 2.0** specification from **Odoo 19** as a
-drop-in compatibility layer for **Odoo 16.0, 17.0, and 18.0** with enterprise-grade security and developer tools.
+drop-in compatibility layer for **Odoo 16.0, 17.0, and 18.0 (Community Edition)** with advanced security and developer tools.
 
 Modern integrations written against Odoo 19 will work on your current instance without any code changes —
 and without touching the legacy XML-RPC protocol.
