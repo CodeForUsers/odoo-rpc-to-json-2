@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from datetime import timedelta
+import logging
+from odoo import models, fields, api
+
+_logger = logging.getLogger(__name__)
 
 
 class JsonRpc2ApiLog(models.Model):
     """Registro de auditoría para cada llamada JSON-RPC 2.0 y REST procesada por el módulo.
 
     Los registros son creados por la capa de servicio y son de solo lectura desde la
-    interfaz de Odoo. Se puede añadir una acción planificada más adelante para purgar entradas antiguas.
+    interfaz de Odoo. Se incluye una acción planificada para purgar entradas antiguas.
     """
 
     _name = 'jsonrpc2.api.log'
@@ -27,6 +31,7 @@ class JsonRpc2ApiLog(models.Model):
         [('password', 'Password'), ('api_key', 'API Key')],
         string='Auth Method',
         readonly=True,
+        index=True,
     )
 
     # -- Campos JSON-RPC ----------------------------------------------------
@@ -74,7 +79,7 @@ class JsonRpc2ApiLog(models.Model):
     )
 
     # -- Info del cliente ---------------------------------------------------
-    client_ip = fields.Char(string='Client IP', readonly=True)
+    client_ip = fields.Char(string='Client IP', readonly=True, index=True)
 
     # ------------------------------------------------------------------
     # Campos Calculados
@@ -88,3 +93,34 @@ class JsonRpc2ApiLog(models.Model):
             if rec.model_method:
                 parts.append(rec.model_method)
             rec.summary = ' → '.join(parts)
+
+    # ------------------------------------------------------------------
+    # Limpieza Automática (Cron)
+    # ------------------------------------------------------------------
+
+    @api.model
+    def _cron_cleanup_logs(self):
+        """Purga registros de logs más antiguos que los días configurados.
+
+        Configurable mediante el parámetro del sistema 'jsonrpc2.log_retention_days' (por defecto: 30 días).
+        """
+        param_value = self.env['ir.config_parameter'].sudo().get_param(
+            'jsonrpc2.log_retention_days', '30'
+        )
+        try:
+            retention_days = int(param_value)
+        except (ValueError, TypeError):
+            retention_days = 30
+
+        if retention_days <= 0:
+            _logger.info('JSON-RPC log cleanup disabled (retention_days <= 0)')
+            return
+
+        cutoff_date = fields.Datetime.now() - timedelta(days=retention_days)
+        domain = [('create_date', '<', cutoff_date)]
+        old_logs = self.search(domain)
+        count = len(old_logs)
+        if count:
+            _logger.info('Purging %d API logs older than %d days (%s)',
+                         count, retention_days, cutoff_date)
+            old_logs.unlink()
